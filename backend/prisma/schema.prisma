@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// タスクを管理するためのデータモデル
+model Task {
+    id String @id @default(uuid())  // タスクの一意識別子（UUID形式）
+    title String // タスクのタイトル（必須）
+    description String? // タスクの詳細説明（任意）
+    status String @default("pending") // タスクの状態（デフォルトは"pending"）
+    priority String @default("medium") // タスクの優先度（デフォルトは"medium"）
+    createdAt DateTime @default(now()) // タスクの作成日時（自動設定）
+    updatedAt DateTime @updatedAt // タスクの最終更新日時（自動更新）
+
+    @@map("tasks") // データベースのテーブル名を"tasks"に設定
+}
