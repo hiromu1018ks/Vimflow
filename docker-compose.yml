@@ -1,0 +1,43 @@
+# Docker Composeのバージョンを指定します
+# 3.8は比較的新しいバージョンで、多くの機能をサポートしています
+version: "3.8"
+
+# このアプリケーションで使用するサービスの定義を開始します
+services:
+  # データベースサービスの定義
+  # このサービスはPostgreSQLデータベースを提供します
+  db:
+    # 使用するPostgreSQLのイメージを指定します
+    # 15はPostgreSQLのバージョン番号です
+    image: postgres:15
+    # コンテナに付ける名前を指定します
+    # この名前でコンテナを識別できます
+    container_name: basic-todo-db
+    # コンテナが停止した場合の再起動ポリシーを指定します
+    # alwaysは常に再起動を試みることを意味します
+    restart: always
+    # コンテナ内の環境変数を設定します
+    # これらの値はPostgreSQLの初期設定に使用されます
+    environment:
+      # 作成するデータベースの名前を指定します
+      - POSTGRES_DB=basic_todo_db
+      # データベースのユーザー名を指定します
+      - POSTGRES_USER=basic_todo_user
+      # データベースのパスワードを指定します
+      - POSTGRES_PASSWORD=basic_todo_password
+    # コンテナのポートマッピングを設定します
+    # 左側の5433がホストマシンのポート、右側の5432がコンテナ内のポートです
+    ports:
+      - "5433:5432"
+    # データの永続化と初期化スクリプトのマウントを設定します
+    volumes:
+      # データベースのデータを永続化するためのボリュームをマウントします
+      - todo_data:/var/lib/postgresql/postgres_data
+      # 初期化スクリプトを格納するディレクトリをマウントします
+      # このディレクトリ内のSQLファイルはコンテナ起動時に自動的に実行されます
+      - ./init:/docker-entrypoint-initdb.d
+
+# 永続化ボリュームの定義
+# これにより、コンテナを削除してもデータは保持されます
+volumes:
+  todo_data:
