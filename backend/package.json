@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ts": "nodemon --files --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts"
+    "ts": "nodemon --files --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
+    "postinstall": "prisma generate"
   },
   "author": "hiromu1018ks",
   "license": "ISC",
