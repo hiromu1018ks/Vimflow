@@ -5,8 +5,19 @@ import {
   updateTask,
   deleteTask,
 } from "../service/taskService";
+import { z } from "zod";
 
 const router = express.Router();
+
+const taskSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string().optional(),
+  status: z.enum(["pending", "in_progress", "completed"]),
+  priority: z.enum(["low", "medium", "high"]),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
 
 // タスク一覧取得
 router.get("/tasks", async (req, res) => {
@@ -28,7 +39,8 @@ router.get("/tasks", async (req, res) => {
 // タスク作成
 router.post("/tasks", async (req, res) => {
   try {
-    const newTask = await createTask(req.body);
+    const validatedData = taskSchema.parse(req.body);
+    const newTask = await createTask(validatedData);
     res.status(201).json({
       status: "success",
       data: newTask,
@@ -45,7 +57,8 @@ router.post("/tasks", async (req, res) => {
 // タスク更新
 router.put("/tasks/:id", async (req, res) => {
   try {
-    const updatedTask = await updateTask(req.params.id, req.body);
+    const validatedData = taskSchema.parse(req.body);
+    const updatedTask = await updateTask(req.params.id, validatedData);
     res.status(200).json({
       status: "success",
       data: updatedTask,
