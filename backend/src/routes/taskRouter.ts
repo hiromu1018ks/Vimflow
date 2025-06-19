@@ -48,7 +48,7 @@ router.put("/tasks/:id", async (req, res) => {
     const updatedTask = await updateTask(req.params.id, req.body);
     res.status(200).json({
       status: "success",
-      date: updatedTask,
+      data: updatedTask,
     });
   } catch (error) {
     console.error(error);
