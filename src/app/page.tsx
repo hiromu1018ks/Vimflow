@@ -44,7 +44,7 @@ export default function Home() {
   });
   const [filter, setFilter] = useState("all");
 
-  const URL = "http://localhost:3001/api";
+  const URL = "/api";
 
   useEffect(() => {
     getAllTodos();
@@ -93,7 +93,7 @@ export default function Home() {
 
         // タスクを追加後、リストを再取得
         await getAllTodos();
-        
+
         setNewTodo({
           title: "",
           status: "pending",
@@ -213,7 +213,9 @@ export default function Home() {
               <Input
                 placeholder="what needs to be done?"
                 value={newTodo.title}
-                onChange={(e) => setNewTodo({...newTodo, title: e.target.value})}
+                onChange={(e) =>
+                  setNewTodo({ ...newTodo, title: e.target.value })
+                }
                 className="flex-1 bg-gray-700/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-gray-500 focus:ring-gray-500"
               />
               <Button
