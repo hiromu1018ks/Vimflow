@@ -32,5 +32,5 @@ app.use("/api", tasksRouter); // タスク関連のAPIルートを/apiパスに�
 // ===== サーバーの起動 =====
 // 指定したポートでサーバーを起動し、起動完了時にメッセージを表示
 app.listen(PORT, () => {
-  console.log("Server is running on port 3001");
+  console.log(`Server is running on port ${PORT}`);
 });
