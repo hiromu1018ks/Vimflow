@@ -1,40 +1,45 @@
 # Next.jsへの統合手順書
 
-## 現在の構成
+## 現在の構成（更新済み）
 
-### バックエンド (Express + Prisma)
-- **フレームワーク**: Express.js (port: 3001)
-- **データベース**: PostgreSQL (Prisma ORM)
-- **API**: REST API (/api/tasks)
-- **主要機能**:
-  - タスクCRUD操作
-  - CORS設定 (localhost:3000許可)
-  - レートリミット (15分間に100回)
-  - Zodによるバリデーション
-
-### フロントエンド (Next.js)
+### 統合後のプロジェクト構造
 - **フレームワーク**: Next.js 15.3.4 (port: 3000)
 - **UI**: Tailwind CSS + shadcn/ui
 - **状態管理**: React hooks (useState, useEffect)
-- **API通信**: fetch API (localhost:3001/api)
+- **API通信**: fetch API (localhost:3001/api) - バックエンドAPIと連携
+- **バックエンド**: Express.js (port: 3001) - 別途実行中
+- **データベース**: PostgreSQL (Prisma ORM)
+
+### 実装済み機能
+- フロントエンドファイルをプロジェクトルートに移動済み
+- package.json統合済み（プロジェクト名: basic-todo-app）
+- tsconfig.json でバックエンドディレクトリを除外設定済み
+- APIのfetch処理実装済み（タスク取得・作成）
 
 ## 統合手順
 
 ### 1. プロジェクト構造の準備
 
 ```bash
-# 新しいNext.jsプロジェクトディレクトリ構造
+# 現在のプロジェクト構造（統合済み）
 basic-todo-app/
-├── prisma/                 # データベーススキーマ
-├── src/
+├── backend/               # Express APIサーバー（port: 3001）
+│   ├── prisma/           # データベーススキーマ
+│   ├── src/
+│   │   ├── routes/       # API Routes
+│   │   ├── service/      # ビジネスロジック
+│   │   └── server.ts     # Express サーバー
+│   └── package.json      # バックエンド依存関係
+├── src/                   # Next.js フロントエンド（port: 3000）
 │   ├── app/
-│   │   ├── api/            # Next.js API Routes
-│   │   │   └── tasks/      # タスクAPI
-│   │   ├── components/     # UIコンポーネント
-│   │   └── lib/           # ユーティリティ
-│   └── types/             # 型定義
-├── package.json
-└── next.config.ts
+│   │   ├── page.tsx      # メインページ
+│   │   └── layout.tsx    # レイアウト
+│   ├── components/       # UIコンポーネント
+│   ├── lib/             # ユーティリティ
+│   └── types/           # 型定義
+├── package.json          # フロントエンド依存関係
+├── next.config.ts
+└── tsconfig.json
 ```
 
 ### 2. 依存関係の統合
@@ -64,14 +69,16 @@ npm install -D @types/node
 }
 ```
 
-### 3. Prismaの移行
+### 3. Next.js API Routes への移行（将来的な作業）
+
+現在はバックエンドAPIが別途動作中ですが、将来的にNext.js API Routesに移行する場合：
 
 #### 3.1 Prismaファイルの移動
 
 ```bash
-# バックエンドからフロントエンドへコピー
-cp -r backend/prisma/ frontend/
-cp backend/.env frontend/ # データベース接続情報
+# バックエンドからルートディレクトリへコピー
+cp -r backend/prisma/ ./
+cp backend/.env ./ # データベース接続情報
 ```
 
 #### 3.2 Prismaクライアントの設定
@@ -219,17 +226,21 @@ export async function DELETE(
 
 ### 5. フロントエンドコードの更新
 
-#### 5.1 API呼び出しの修正
+#### 5.1 API呼び出しの現在の状態
 
-`src/app/page.tsx`の`URL`を更新:
+`src/app/page.tsx`の現在の設定:
 
 ```typescript
-// 変更前
+// 現在（バックエンドAPIと連携）
 const URL = "http://localhost:3001/api";
 
-// 変更後
-const URL = "/api";
+// 将来的にNext.js API Routesに移行時
+// const URL = "/api";
 ```
+
+**実装済み機能：**
+- タスク一覧取得（getAllTodos）
+- タスク作成（addTodo） - APIと連携済み
 
 #### 5.2 型定義の統合
 
@@ -271,23 +282,30 @@ const nextConfig: NextConfig = {
 export default nextConfig;
 ```
 
-### 8. 移行の実行手順
+### 8. 現在の実行手順
 
-#### 8.1 データベースの確認
+#### 8.1 バックエンドサーバーの起動
 
 ```bash
-# 既存のデータベースが正常に動作することを確認
+# バックエンドAPIサーバーを起動（port: 3001）
 cd backend
-npm run seed
+npm install
+npm run dev
 ```
 
-#### 8.2 統合版のテスト
+#### 8.2 フロントエンドの起動
 
 ```bash
-# フロントエンドディレクトリで
+# プロジェクトルートで Next.js を起動（port: 3000）
 npm install
-npx prisma generate
 npm run dev
+```
+
+#### 8.3 データベースのシード（必要に応じて）
+
+```bash
+cd backend
+npm run seed
 ```
 
 #### 8.3 動作確認項目
@@ -298,12 +316,18 @@ npm run dev
 - [ ] タスクの削除
 - [ ] データベースの永続化
 
-### 9. バックエンドの削除
+### 9. 将来の完全統合
 
-統合が完了し、すべてのテストが通過した後:
+**現在の状態**: フロントエンドファイルは統合済み、バックエンドAPIは独立動作
+
+**完全統合時の手順**:
+1. Next.js API Routes の実装
+2. Prisma設定の移行
+3. 環境変数の統合
+4. バックエンドディレクトリの削除
 
 ```bash
-# バックエンドディレクトリの削除
+# 完全統合後にバックエンドディレクトリを削除
 rm -rf backend/
 ```
 
