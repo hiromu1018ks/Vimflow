@@ -7,6 +7,7 @@ import { Task } from "@/types/type";
 import { useEffect, useState } from "react";
 import { CheckCircle2, Circle, Clock, Plus, Trash2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 export default function Home() {
   // 状態管理
@@ -210,13 +211,17 @@ export default function Home() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex gap-3">
+              <Label htmlFor="title" className="text-gray-300">
+                Title
+              </Label>
               <Input
+                id="title"
                 placeholder="what needs to be done?"
                 value={newTodo.title}
                 onChange={(e) =>
                   setNewTodo({ ...newTodo, title: e.target.value })
                 }
-                className="flex-1 bg-gray-700/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-gray-500 focus:ring-gray-500"
+                className="bg-gray-700/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-gray-500 focus:ring-gray-500"
               />
               <Button
                 onClick={addTodo}

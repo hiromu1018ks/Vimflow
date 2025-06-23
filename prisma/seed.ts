@@ -1,4 +1,4 @@
-import { PrismaClient } from "../backend/generated/prisma";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -10,30 +10,21 @@ async function main() {
   // テストデータを挿入
   const task1 = await prisma.task.create({
     data: {
-      title: "牛乳を買う",
-      description: "スーパーで低脂肪牛乳を買う",
-      status: "pending",
-      priority: "high",
+      task: "牛乳を買う",
     },
   });
   console.log(`Created task with id: ${task1.id}`);
 
   const task2 = await prisma.task.create({
     data: {
-      title: "レポートを提出する",
-      description: "月次レポートを上司に提出",
-      status: "completed",
-      priority: "high",
+      task: "レポートを提出する",
     },
   });
   console.log(`Created task with id: ${task2.id}`);
 
   const task3 = await prisma.task.create({
     data: {
-      title: "ジムに行く",
-      description: "週3回の運動目標を達成する",
-      status: "pending",
-      priority: "medium",
+      task: "ジムに行く",
     },
   });
   console.log(`Created task with id: ${task3.id}`);

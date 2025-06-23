@@ -1,9 +1,10 @@
-export interface Task {
-  // id: string;
-  title: string;
-  description?: string;
-  status: "pending" | "in_progress" | "completed";
-  priority: "low" | "medium" | "high";
-  createdAt?: Date;
-  updatedAt?: Date; // 追加
+export interface createTask {
+  task: string;
+}
+
+export interface getAllTask {
+  id: string;
+  task: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
