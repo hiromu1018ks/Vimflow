@@ -5,10 +5,7 @@ import { z } from "zod";
 const prisma = new PrismaClient();
 
 const taskSchema = z.object({
-  title: z.string().min(1),
-  description: z.string().optional(),
-  status: z.enum(["pending", "in_progress", "completed"]).default("pending"),
-  priority: z.enum(["low", "medium", "high"]).default("medium"),
+  task: z.string().min(1),
 });
 
 // GET /api/tasks
@@ -17,6 +14,7 @@ export async function GET() {
     const tasks = await prisma.task.findMany({
       orderBy: { createdAt: "desc" },
     });
+    console.log(tasks);
     return NextResponse.json({ status: "success", data: tasks });
   } catch (error) {
     console.error(error);

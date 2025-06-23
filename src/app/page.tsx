@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Task } from "@/types/type";
+import { createTask, getAllTask } from "@/types/type";
 import { useEffect, useState } from "react";
 import { CheckCircle2, Circle, Clock, Plus, Trash2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 
 export default function Home() {
   // 状態管理
-  const [todos, setTodos] = useState<Task[]>([
+  const [todos, setTodos] = useState<getAllTask[]>([
     // {
     //   id: "1",
     //   title: "Test Task 1 ",
@@ -37,11 +37,8 @@ export default function Home() {
     //   createdAt: new Date(),
     // },
   ]);
-  const [newTodo, setNewTodo] = useState<Task>({
-    title: "",
-    status: "pending",
-    priority: "medium",
-    description: "",
+  const [newTodo, setNewTodo] = useState<createTask>({
+    task: "",
   });
   const [filter, setFilter] = useState("all");
 
@@ -61,7 +58,7 @@ export default function Home() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const result = await response.json();
-      const tasks = result.data.map((task: Task) => ({
+      const tasks = result.data.map((task: getAllTask) => ({
         ...task,
         createdAt: task.createdAt ? new Date(task.createdAt) : undefined,
       }));
@@ -73,7 +70,7 @@ export default function Home() {
   };
 
   const addTodo = async () => {
-    if (newTodo.title.trim()) {
+    if (newTodo.task.trim()) {
       try {
         const response = await fetch(`${URL}/tasks`, {
           method: "POST",
@@ -81,10 +78,7 @@ export default function Home() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            title: newTodo.title.trim(),
-            status: "pending",
-            priority: newTodo.priority,
-            description: newTodo.description || "",
+            task: newTodo.task.trim(),
           }),
         });
 
@@ -96,10 +90,7 @@ export default function Home() {
         await getAllTodos();
 
         setNewTodo({
-          title: "",
-          status: "pending",
-          priority: "medium",
-          description: "",
+          task: "",
         });
       } catch (error) {
         console.error("Failed to add task:", error);
@@ -107,42 +98,18 @@ export default function Home() {
     }
   };
 
-  const getPriorityColor = (priority: "low" | "medium" | "high") => {
-    switch (priority) {
-      case "high":
-        return "bg-red-500/20 text-red-400 border-red-500/30";
-      case "medium":
-        return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
-      case "low":
-        return "bg-green-500/20 text-green-400 border-green-500/30";
-      default:
-        return "bg-gray-500/20 text-gray-400 border-gray-500/30";
-    }
-  };
+  const deleteTodo = async (id: string) => {
+    try {
+      const response = await fetch(`${URL}/tasks/${id}`, {
+        method: "DELETE",
+      });
 
-  const getStatusColor = (status: "pending" | "in_progress" | "completed") => {
-    switch (status) {
-      case "completed":
-        return "bg-green-500/20 text-green-400 border-green-500/30";
-      case "in_progress":
-        return "bg-blue-500/20 text-blue-400 border-blue-500/30";
-      case "pending":
-        return "bg-gray-500/20 text-gray-400 border-gray-500/30";
-      default:
-        return "bg-gray-500/20 text-gray-400 border-gray-500/30";
-    }
-  };
-
-  const getStatusIcon = (status: "pending" | "in_progress" | "completed") => {
-    switch (status) {
-      case "completed":
-        return CheckCircle2;
-      case "in_progress":
-        return Clock;
-      case "pending":
-        return Circle;
-      default:
-        return Circle;
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      await getAllTodos();
+    } catch (error) {
+      console.error("Failed to delete task:", error);
     }
   };
 
@@ -217,9 +184,9 @@ export default function Home() {
               <Input
                 id="title"
                 placeholder="what needs to be done?"
-                value={newTodo.title}
+                value={newTodo.task}
                 onChange={(e) =>
-                  setNewTodo({ ...newTodo, title: e.target.value })
+                  setNewTodo({ ...newTodo, task: e.target.value })
                 }
                 className="bg-gray-700/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-gray-500 focus:ring-gray-500"
               />
@@ -241,15 +208,15 @@ export default function Home() {
               {todos.map((task, index) => (
                 <Card
                   key={index}
-                  className="transition-all duration-300 hover:shadow-lg hover:scale-[1.01] bg-gray-800/50 border-gray-600 backdrop-blur-sm"
+                  className="transition-all duration-300 hover:shadow-lg hover:scale-[1.05] bg-gray-800/50 border-gray-600 backdrop-blur-sm p-2 mb-3"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-4">
+                  <CardContent className="p-2">
+                    <div className="flex items-center gap-2">
                       <Checkbox className="data-[state=checked]:bg-white data-[state=checked]:border-white" />
                       <div className="flex-1">
                         <p className=" transition-all duration-200 text-white">
-                          {task.title}
+                          {task.task}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">
                           {task.createdAt?.toLocaleDateString("ja-JP")}
@@ -259,6 +226,7 @@ export default function Home() {
                         variant="ghost"
                         size="sm"
                         className="text-gray-400 hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
+                        onClick={() => deleteTodo(task.id)}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
