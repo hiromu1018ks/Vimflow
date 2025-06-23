@@ -5,7 +5,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { createTask, getAllTask } from "@/types/type";
 import { useEffect, useState } from "react";
-import { CheckCircle2, Circle, Clock, Plus, Trash2 } from "lucide-react";
+import {
+  Check,
+  CheckCircle2,
+  Circle,
+  Clock,
+  NotebookPen,
+  Plus,
+  Trash2,
+  X,
+} from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
@@ -40,7 +49,8 @@ export default function Home() {
   const [newTodo, setNewTodo] = useState<createTask>({
     task: "",
   });
-  const [filter, setFilter] = useState("all");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingTask, setEditingTask] = useState<string>("");
 
   const URL = "/api";
 
@@ -113,14 +123,40 @@ export default function Home() {
     }
   };
 
-  const completedCount = todos.filter(
-    (todo) => todo.status == "completed"
-  ).length;
-  const inProgressCount = todos.filter(
-    (todo) => todo.status == "in_progress"
-  ).length;
-  const pendingCount = todos.filter((todo) => todo.status == "pending").length;
-  const totalCount = todos.length;
+  const saveTask = async (id: string) => {
+    if (editingTask.trim()) {
+      try {
+        const response = await fetch(`${URL}/tasks/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            task: editingTask.trim(),
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        await getAllTodos();
+        setEditingId(null);
+        setEditingTask("");
+      } catch (error) {
+        console.error("Failed to update task:", error);
+      }
+    }
+  };
+
+  const startEditing = (task: getAllTask) => {
+    setEditingId(task.id);
+    setEditingTask(task.task);
+  };
+
+  const cancelEditing = () => {
+    setEditingId(null);
+    setEditingTask("");
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-4">
@@ -134,42 +170,6 @@ export default function Home() {
             Organize your thoughts, accomplish your goals
           </p>
         </div>
-        {/* Status Card */}
-        <Card className="mb-6 bg-gray-800/50 border-gray-700 backdrop-blur-sm">
-          <CardContent className="p-6">
-            <div className="flex justify-between items-center">
-              <div className="flex gap-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white">
-                    {totalCount}
-                  </div>
-                  <div className="text-sm text-gray-400">Total Tasks</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-400">
-                    {completedCount}
-                  </div>
-                  <div className="text-sm text-gray-400">Completed</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-400">
-                    {inProgressCount}
-                  </div>
-                  <div className="text-sm text-gray-400">inProgress</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400">
-                    {pendingCount}
-                  </div>
-                  <div className="text-sm text-gray-400">Pending</div>
-                </div>
-              </div>
-              <div className="h-16 w-16 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center">
-                <Circle className="w-8 h-8 text-gray-300" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
 
         {/* Add Todo */}
         <Card className="mb-6 bg-gray-800/50 border-gray-700 backdrop-blur-sm">
@@ -215,13 +215,60 @@ export default function Home() {
                     <div className="flex items-center gap-2">
                       <Checkbox className="data-[state=checked]:bg-white data-[state=checked]:border-white" />
                       <div className="flex-1">
-                        <p className=" transition-all duration-200 text-white">
-                          {task.task}
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {task.createdAt?.toLocaleDateString("ja-JP")}
-                        </p>
+                        {editingId === task.id ? (
+                          // 編集モード
+                          <div className="flex gap-2">
+                            <Input
+                              value={editingTask}
+                              onChange={(e) => setEditingTask(e.target.value)}
+                              className="flex-1 bg-gray-700/50 border-gray-600 text-white"
+                              onKeyPress={(e) => {
+                                if (e.key === "Enter") {
+                                  saveTask(task.id);
+                                }
+                                if (e.key === "Escape") {
+                                  cancelEditing();
+                                }
+                              }}
+                              autoFocus
+                            />
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => saveTask(task.id)}
+                              className="text-gray-400 hover:text-green-400 hover:bg-green-400/10 transition-all duration-200"
+                            >
+                              <Check className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={cancelEditing}
+                              className="text-gray-400 hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        ) : (
+                          // 表示モード
+                          <div>
+                            <p className="transition-all duration-200 text-white">
+                              {task.task}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {task.createdAt?.toLocaleDateString("ja-JP")}
+                            </p>
+                          </div>
+                        )}
                       </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-gray-400 hover:text-blue-400 hover:bg-blue-400/10 transition-all duration-200"
+                        onClick={() => startEditing(task)}
+                      >
+                        <NotebookPen className="w-4 h-4" />
+                      </Button>
                       <Button
                         variant="ghost"
                         size="sm"
