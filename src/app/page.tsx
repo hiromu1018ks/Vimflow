@@ -5,52 +5,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { createTask, getAllTask } from "@/types/type";
 import { useEffect, useState } from "react";
-import {
-  Check,
-  CheckCircle2,
-  Circle,
-  Clock,
-  NotebookPen,
-  Plus,
-  Trash2,
-  X,
-} from "lucide-react";
+import { Check, Circle, NotebookPen, Plus, Trash2, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
 export default function Home() {
   // 状態管理
-  const [todos, setTodos] = useState<getAllTask[]>([
-    // {
-    //   id: "1",
-    //   title: "Test Task 1 ",
-    //   description: "Test Description 1",
-    //   status: "pending",
-    //   priority: "low",
-    //   createdAt: new Date(),
-    // },
-    // {
-    //   id: "2",
-    //   title: "Test Task 2",
-    //   description: "Test Description 2",
-    //   status: "completed",
-    //   priority: "medium",
-    //   createdAt: new Date(),
-    // },
-    // {
-    //   id: "3",
-    //   title: "Test Task 3",
-    //   description: "Test Description 3",
-    //   status: "pending",
-    //   priority: "high",
-    //   createdAt: new Date(),
-    // },
-  ]);
+  const [todos, setTodos] = useState<getAllTask[]>([]);
   const [newTodo, setNewTodo] = useState<createTask>({
     task: "",
   });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<string>("");
+  const [mode, setMode] = useState<"normal" | "insert">("normal");
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [commandBuffer, setCommandBuffer] = useState<string>("");
 
   const URL = "/api";
 
@@ -158,6 +127,105 @@ export default function Home() {
     setEditingTask("");
   };
 
+  // ===== vimモード設定 =====
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // 編集モード中は通常のキー操作を許可
+      if (editingId) return;
+
+      // Input要素にフォーカスがある場合はスキップ
+      if (e.target instanceof HTMLInputElement) return;
+
+      if (mode === "normal") {
+        handleNormalMode(e);
+      } else if (mode === "insert") {
+        handleInsertMode(e);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [mode, selectedIndex, todos, commandBuffer]);
+
+  // ノーマルモードのキー操作を処理する関数
+  const handleNormalMode = (e: KeyboardEvent) => {
+    e.preventDefault(); // ブラウザのデフォルト動作を無効化
+
+    switch (e.key) {
+      // 下に移動：jキーで次のタスクに移動
+      case "j":
+        setSelectedIndex((prev) => Math.min(prev + 1, todos.length - 1));
+        break;
+      // 上に移動：kキーで前のタスクに移動
+      case "k":
+        setSelectedIndex((prev) => Math.max(prev - 1, 0));
+        break;
+      // ggコマンド：最初のタスクに移動
+      case "g":
+        if (commandBuffer === "g") {
+          setSelectedIndex(0); // 最初のタスクに移動
+          setCommandBuffer(""); // コマンドバッファをクリア
+        } else {
+          setCommandBuffer("g"); // 最初のgをバッファに保存
+        }
+        break;
+      // Gコマンド：最後のタスクに移動
+      case "G":
+        setSelectedIndex(todos.length - 1);
+        break;
+      // oコマンド：新しいタスクを追加してインサートモードに移行
+      case "o":
+        setMode("insert"); // モードをインサートに変更
+        // 新規タスク入力フィールドにフォーカスを当てる
+        setTimeout(() => {
+          document.getElementById("new-task-input")?.focus();
+        }, 0);
+        break;
+      case "i":
+        // インサートモードに移行
+        setMode("insert");
+        setTimeout(() => {
+          document.getElementById("new-task-input")?.focus();
+        }, 0);
+        break;
+      case "Enter":
+        // 選択されたタスクを編集
+        if (todos[selectedIndex]) {
+          startEditing(todos[selectedIndex]);
+        }
+        break;
+      case "d":
+        if (commandBuffer === "d") {
+          // ddコマンド：選択されたタスクを削除
+          if (todos[selectedIndex]) {
+            deleteTodo(todos[selectedIndex].id);
+            // インデックスを調整
+            if (selectedIndex >= todos.length - 1) {
+              setSelectedIndex(Math.max(0, todos.length - 2));
+            }
+          }
+          setCommandBuffer("");
+        } else {
+          setCommandBuffer("d");
+        }
+        break;
+      case "Escape":
+        // コマンドバッファをクリア
+        setCommandBuffer("");
+        break;
+      default:
+        // 無効なキーの場合はコマンドバッファをクリア
+        setCommandBuffer("");
+        break;
+    }
+  };
+
+  const handleInsertMode = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      setMode("normal");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-4">
       <div className="max-w-2xl mx-auto pt-8">
@@ -182,12 +250,22 @@ export default function Home() {
                 Title
               </Label>
               <Input
-                id="title"
+                id="new-task-input"
                 placeholder="what needs to be done?"
                 value={newTodo.task}
                 onChange={(e) =>
                   setNewTodo({ ...newTodo, task: e.target.value })
                 }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    addTodo();
+                    setMode("normal");
+                  } else if (e.key === "Escape") {
+                    setMode("normal");
+                    setNewTodo({ task: "" });
+                    (e.target as HTMLInputElement).blur();
+                  }
+                }}
                 className="bg-gray-700/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-gray-500 focus:ring-gray-500"
               />
               <Button
@@ -208,7 +286,11 @@ export default function Home() {
               {todos.map((task, index) => (
                 <Card
                   key={index}
-                  className="transition-all duration-300 hover:shadow-lg hover:scale-[1.05] bg-gray-800/50 border-gray-600 backdrop-blur-sm p-2 mb-3"
+                  className={`transition-all duration-300 hover:shadow-lg hover:scale-[1.05] backdrop-blur-sm p-2 mb-3 ${
+                    selectedIndex === index && mode === "normal"
+                      ? "bg-blue-500/20 border-blue-400 shadow-lg ring-2 ring-blue-400/50"
+                      : "bg-gray-800/50 border-gray-600"
+                  }`}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <CardContent className="p-2">
@@ -220,6 +302,7 @@ export default function Home() {
                           <div className="flex gap-2">
                             <Input
                               value={editingTask}
+                              placeholder="Edit task"
                               onChange={(e) => setEditingTask(e.target.value)}
                               className="flex-1 bg-gray-700/50 border-gray-600 text-white"
                               onKeyPress={(e) => {
