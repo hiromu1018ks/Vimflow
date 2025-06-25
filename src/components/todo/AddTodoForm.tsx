@@ -39,7 +39,7 @@ interface AddTodoFormProps {
 }
 
 /**
- * タスク追加フォームコンポーネント
+ * Todo追加フォームコンポーネント
  *
  * このコンポーネントの役割：
  * 1. Vimモードの表示（INSERT MODE / NORMAL MODE）
@@ -57,6 +57,12 @@ export default function AddTodoForm({ vimHooks, todoHooks }: AddTodoFormProps) {
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     // Enterキーが押された場合の処理
     if (e.key === "Enter") {
+      // 日本語入力（IME）の変換中かどうかをチェック
+      // isComposingがtrueの場合、まだ変換が確定していないのでタスク追加しない
+      if (e.nativeEvent.isComposing) {
+        return; // 何もせずに関数を終了
+      }
+      
       // タスクを追加する処理を実行（非同期なのでawaitを使用）
       await todoHooks.addTodo();
       // タスク追加後、Vimモードを通常モードに戻す

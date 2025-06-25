@@ -87,9 +87,18 @@ export default function TodoItem({
   /**
    * 編集中のキーボードイベント処理
    * Enter: 保存, Escape: キャンセル
+   * 
+   * 日本語入力対応：
+   * IME変換中のEnterキーは無視して、変換確定のみを処理
    */
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      // 日本語入力（IME）の変換中かどうかをチェック
+      // isComposingがtrueの場合、まだ変換が確定していないので保存しない
+      if (e.nativeEvent.isComposing) {
+        return; // 何もせずに関数を終了
+      }
+      
       // Enterキー: 編集内容を保存
       await onSave(task.id);
     }

@@ -63,10 +63,10 @@ export default function Home() {
         {/* ヘッダー */}
         <TodoHeader />
 
-        {/* タスク追加フォーム */}
+        {/* Todo追加フォーム */}
         <AddTodoForm vimHooks={vimHooks} todoHooks={todoHooks} />
 
-        {/* タスクリスト */}
+        {/* Todoリスト */}
         <TodoList
           todos={todoHooks.todos}
           selectedIndex={vimHooks.selectedIndex}

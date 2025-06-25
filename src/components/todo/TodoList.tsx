@@ -8,7 +8,7 @@ import { Card, CardContent } from "../ui/card";
 import { Circle } from "lucide-react";
 
 /**
- * タスクリストコンポーネントが受け取るpropsの型定義
+ * Todoリストコンポーネントが受け取るpropsの型定義
  * 
  * 初心者向けポイント：
  * - このコンポーネントは複数のTodoItemを管理します
@@ -38,7 +38,7 @@ interface TodoListProps {
   isLoading?: boolean;                        // ローディング中かどうか
 }
 /**
- * タスクリストコンポーネント
+ * Todoリストコンポーネント
  * 
  * このコンポーネントの役割：
  * 1. タスクの配列を受け取り、1つずつTodoItemコンポーネントで表示する

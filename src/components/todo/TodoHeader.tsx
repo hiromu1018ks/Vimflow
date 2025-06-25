@@ -22,9 +22,9 @@ export default function TodoHeader() {
         <Image
           src="/vimendo_header_logo.svg"          // publicフォルダ内の画像パス
           alt="Vimendo - Modal Todo Editor"        // スクリーンリーダー用の説明文
-          width={400}                              // 画像の幅（レイアウトシフト防止）
-          height={120}                             // 画像の高さ（レイアウトシフト防止）
-          className="mx-auto"                      // 水平中央配置（margin: 0 auto;）
+          width={300}                              // 画像の幅を300pxに縮小（元400px）
+          height={90}                              // 画像の高さを90pxに縮小（元120px）
+          className="mx-auto w-full max-w-xs sm:max-w-sm"  // レスポンシブ対応: モバイルでは最大240px、デスクトップでは最大384px
           priority                                 // 重要な画像なので優先的に読み込み
         />
       </div>
