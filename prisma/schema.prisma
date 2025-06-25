@@ -18,8 +18,29 @@ datasource db {
 model Task {
     id String @id @default(uuid())
     task String
+    completed Boolean @default(false)
+    userId String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    user User @relation(fields:userId, references:id, onDelete:Cascade)
+
     @@map("tasks")
+    @@index([userId, createdAt])
+}
+
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  name String?
+  image String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  tasks Task[]
+  accounts Account[]
+  sessions Session[]
+
+  @@map("users")
 }
