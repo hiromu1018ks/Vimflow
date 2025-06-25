@@ -1,5 +1,5 @@
 import { getAllTask } from "@/types/type";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export type VimMode = "normal" | "insert";
 
@@ -29,7 +29,7 @@ export const useVimMode = (params: UseVimModeParams): UseVimModeReturn => {
   // ===== vimモード設定 =====
 
   // ノーマルモードのキー操作を処理する関数
-  const handleNormalMode = (e: KeyboardEvent) => {
+  const handleNormalMode = useCallback((e: KeyboardEvent) => {
     e.preventDefault(); // ブラウザのデフォルト動作を無効化
 
     switch (e.key) {
@@ -99,32 +99,45 @@ export const useVimMode = (params: UseVimModeParams): UseVimModeReturn => {
         setCommandBuffer("");
         break;
     }
-  };
+  }, [todos, selectedIndex, commandBuffer, onStartEditing, onDeleteTodo]);
 
-  const handleInsertMode = (e: KeyboardEvent) => {
+  const handleInsertMode = useCallback((e: KeyboardEvent) => {
+    // Escapeキーでノーマルモードに戻る
     if (e.key === "Escape") {
       e.preventDefault();
       setMode("normal");
+      return;
     }
-  };
+    
+    // Ctrl+Cでノーマルモードに戻る（Vimの標準動作）
+    if (e.ctrlKey && e.key === "c") {
+      e.preventDefault();
+      setMode("normal");
+      // フォーカスを外してインサートモードを終了
+      if (e.target instanceof HTMLInputElement) {
+        e.target.blur();
+      }
+      return;
+    }
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // 編集モード中は通常のキー操作を許可
       if (editingId) return;
 
-      // Input要素にフォーカスがある場合はスキップ
-      if (e.target instanceof HTMLInputElement) return;
-
       if (mode === "normal") {
+        // Input要素にフォーカスがある場合はスキップ（ノーマルモード時のみ）
+        if (e.target instanceof HTMLInputElement) return;
         handleNormalMode(e);
       } else if (mode === "insert") {
+        // インサートモード時は、Escape や Ctrl+C は処理する
         handleInsertMode(e);
       }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [mode, selectedIndex, todos, commandBuffer]);
+  }, [mode, editingId, handleNormalMode, handleInsertMode]);
 
   return {
     mode,
