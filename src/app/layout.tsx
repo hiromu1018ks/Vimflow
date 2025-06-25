@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "basic-todo-app",
-  description: "basic-todo-app",
+  title: "Vimendo - Modal Todo Editor",
+  description: "Vim-inspired modal editing for your tasks. Organize your thoughts with keyboard efficiency.",
 };
 
 export default function RootLayout({

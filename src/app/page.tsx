@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Check, Circle, NotebookPen, Plus, Trash2, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+// Next.jsのImageコンポーネント - 最適化された画像表示
+import Image from "next/image";
 
 // カスタムフック（自作の状態管理）のインポート
 import { useTodos } from "@/hooks/useTodos";     // タスクの基本操作（追加・削除・取得）
@@ -93,28 +95,39 @@ export default function Home() {
         
         {/* === ヘッダーセクション === */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">
-            Todo
-          </h1>
+          {/* ロゴ画像 */}
+          <div className="mb-6">
+            <Image
+              src="/vimendo_header_logo.svg"
+              alt="Vimendo - Modal Todo Editor"
+              width={400}
+              height={120}
+              className="mx-auto"
+              priority
+            />
+          </div>
           <p className="text-gray-400 text-lg">
-            Organize your thoughts, accomplish your goals
+            Vim-inspired modal editing for your tasks
           </p>
         </div>
 
         {/* === タスク追加フォームセクション === */}
         <Card className="mb-6 bg-gray-800/50 border-gray-700 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle className="text-white">Add New Task</CardTitle>
+            <CardTitle className="text-white flex items-center gap-2">
+              <div className={`w-3 h-3 rounded-full ${
+                vimHooks.mode === "insert" ? "bg-green-400" : "bg-red-400"
+              } animate-pulse`} />
+              {vimHooks.mode === "insert" ? "INSERT MODE" : "NORMAL MODE"}
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex gap-3">
-              <Label htmlFor="title" className="text-gray-300">
-                Title
-              </Label>
               <Input
                 id="new-task-input"                      // Vimモードでフォーカス時に使用するID
-                placeholder="what needs to be done?"
+                placeholder={vimHooks.mode === "insert" ? "Type your task and press Enter..." : "Press 'i' or 'o' to add a task"}
                 value={todoHooks.newTodo.task}           // 現在の入力値を表示
+                disabled={vimHooks.mode === "normal"}     // ノーマルモードでは入力無効
                 onChange={(e) =>
                   // 入力値が変更されたときの処理
                   // スプレッド演算子でオブジェクトをコピーしてtaskプロパティのみ更新
@@ -137,12 +150,21 @@ export default function Home() {
                     (e.target as HTMLInputElement).blur();
                   }
                 }}
-                className="bg-gray-700/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-gray-500 focus:ring-gray-500"
+                className={`transition-all duration-200 ${
+                  vimHooks.mode === "insert" 
+                    ? "bg-gray-700/50 border-green-500 text-white placeholder:text-gray-400 focus:border-green-400 focus:ring-green-400/50" 
+                    : "bg-gray-700/30 border-red-500/50 text-gray-500 placeholder:text-gray-500 cursor-not-allowed"
+                }`}
               />
               {/* タスク追加ボタン（+アイコン） */}
               <Button
                 onClick={todoHooks.addTodo}              // クリック時にタスクを追加
-                className="bg-white text-black hover:bg-gray-400 transition-all duration-200 shadow-lg hover:shadow-xl"
+                disabled={vimHooks.mode === "normal"}    // ノーマルモードでは無効
+                className={`transition-all duration-200 shadow-lg hover:shadow-xl ${
+                  vimHooks.mode === "insert"
+                    ? "bg-green-400 text-black hover:bg-green-300"
+                    : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                }`}
               >
                 <Plus className="w-4 h-4" />
               </Button>
@@ -152,11 +174,23 @@ export default function Home() {
 
         {/* === タスク一覧表示セクション === */}
         <div className="space-y-3">
-          <Card className="bg-gray-800/30 border-gray-700 border-dashed">
-            <CardContent className="p-8 text-center">
-              {/* 装飾用のサークルアイコン */}
-              <Circle className="w-12 h-12 text-gray-500 mx-auto mb-3" />
-              
+          {todoHooks.todos.length === 0 ? (
+            <Card className="bg-gray-800/30 border-gray-700 border-dashed">
+              <CardContent className="p-8 text-center">
+                {/* 装飾用のサークルアイコン */}
+                <Circle className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+                <h3 className="text-white text-lg font-medium mb-2">No tasks yet</h3>
+                <p className="text-gray-400 mb-4">Press <kbd className="px-2 py-1 bg-gray-700 rounded text-green-400 font-mono text-sm">'i'</kbd> or <kbd className="px-2 py-1 bg-gray-700 rounded text-green-400 font-mono text-sm">'o'</kbd> to add your first task</p>
+                <div className="text-sm text-gray-500">
+                  <p>Vim shortcuts:</p>
+                  <div className="mt-2 space-y-1">
+                    <p><kbd className="px-1 bg-gray-700 rounded text-xs">j/k</kbd> navigate • <kbd className="px-1 bg-gray-700 rounded text-xs">dd</kbd> delete • <kbd className="px-1 bg-gray-700 rounded text-xs">Enter</kbd> edit</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <>
               {/* 
                 タスク一覧の表示（.map()でタスク配列を一つずつ処理）
                 各タスクを個別のCardコンポーネントとして表示
@@ -264,13 +298,14 @@ export default function Home() {
                   </CardContent>
                 </Card>
               ))}
-            </CardContent>
-          </Card>
+            </>
+          )}
         </div>
 
         {/* === フッターセクション === */}
         <div className="text-center mt-12 pb-8">
-          <p className="text-gray-500 text-sm">Built with React & shadcn/ui</p>
+          <p className="text-gray-500 text-sm">Built with Next.js • React • Tailwind CSS</p>
+          <p className="text-gray-600 text-xs mt-2">Vimendo - Modal editing for modern productivity</p>
         </div>
       </div>
     </div>
