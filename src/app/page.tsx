@@ -57,7 +57,7 @@ export default function Home() {
       {/* 背景アニメーションコンポーネントを配置 */ }
       <FlowBackground
         enabled={ true }
-        intensity="strong"
+        intensity="normal"
       />
 
       {/* テーマ切り替えボタンを配置 */ }

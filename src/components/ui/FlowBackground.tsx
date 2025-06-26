@@ -169,43 +169,216 @@ function LightModeAnimation({ intensity } : { intensity : string }) {
           .particle-1 {
               top: 20%;
               left: 15%;
-              animation: floatParticle1 15s ease-in-out infinite; /* floatParticle1というアニメーションを適用 */
+              animation: floatParticle1 8s linear infinite;
+              animation-delay: 0s;
           }
 
           .particle-2 {
               top: 60%;
               left: 70%;
-              animation: floatParticle2 18s ease-in-out infinite;
+              animation: floatParticle2 10s linear infinite;
+              animation-delay: 1s;
           }
 
-          /* 他のパーティクルのスタイル... */
+          .particle-3 {
+              top: 30%;
+              left: 40%;
+              animation: floatParticle3 6s linear infinite;
+              animation-delay: 2s;
+          }
+
+          .particle-4 {
+              top: 80%;
+              left: 25%;
+              animation: floatParticle4 9s linear infinite;
+              animation-delay: 0.5s;
+          }
+
+          .particle-5 {
+              top: 10%;
+              left: 60%;
+              animation: floatParticle5 7s linear infinite;
+              animation-delay: 3s;
+          }
+
+          .particle-6 {
+              top: 70%;
+              left: 85%;
+              animation: floatParticle6 11s linear infinite;
+              animation-delay: 1.5s;
+          }
+
+          .particle-7 {
+              top: 45%;
+              left: 10%;
+              animation: floatParticle7 8.5s linear infinite;
+              animation-delay: 2.5s;
+          }
+
+          .particle-8 {
+              top: 25%;
+              left: 80%;
+              animation: floatParticle8 6.5s linear infinite;
+              animation-delay: 4s;
+          }
+
+          .particle-9 {
+              top: 55%;
+              left: 50%;
+              animation: floatParticle9 9.5s linear infinite;
+              animation-delay: 0.8s;
+          }
+
+          .particle-10 {
+              top: 15%;
+              left: 30%;
+              animation: floatParticle10 7.5s linear infinite;
+              animation-delay: 3.5s;
+          }
+
+          .particle-11 {
+              top: 35%;
+              left: 75%;
+              animation: floatParticle11 10.5s linear infinite;
+              animation-delay: 1.2s;
+          }
+
+          .particle-12 {
+              top: 65%;
+              left: 20%;
+              animation: floatParticle12 5.5s linear infinite;
+              animation-delay: 4.5s;
+          }
+
+          .particle-13 {
+              top: 5%;
+              left: 90%;
+              animation: floatParticle13 8s linear infinite;
+              animation-delay: 2.8s;
+          }
+
+          .particle-14 {
+              top: 85%;
+              left: 65%;
+              animation: floatParticle14 9s linear infinite;
+              animation-delay: 1.8s;
+          }
+
+          .particle-15 {
+              top: 40%;
+              left: 5%;
+              animation: floatParticle15 7s linear infinite;
+              animation-delay: 3.8s;
+          }
 
           /* @keyframesでアニメーションの動きを定義します。 */
-          /* floatParticle1は、パーティクルが透明から現れて移動し、また透明になる動きを定義しています。 */
           @keyframes floatParticle1 {
-              0%, 80% {
-                  opacity: 0;
-                  transform: translateY(0) scale(0.8);
-              }
-              /* 最初と80%の時点では透明で少し小さい */
-              85% {
-                  opacity: 0.8;
-                  transform: translateY(-20px) scale(1);
-              }
-              /* 85%で少し現れて上に移動し、元のサイズに */
-              92% {
-                  opacity: 1;
-                  transform: translateY(-40px) scale(1.1);
-              }
-              /* 92%で完全に現れてさらに上に移動し、少し大きくなる */
-              100% {
-                  opacity: 0;
-                  transform: translateY(-80px) scale(0.7);
-              }
-              /* 100%で透明になり、さらに上に移動し、小さくなる */
+              0% { opacity: 0; transform: translateY(0) scale(0.5); }
+              25% { opacity: 0.3; transform: translateY(-15px) scale(0.8); }
+              50% { opacity: 0.8; transform: translateY(-30px) scale(1); }
+              75% { opacity: 1; transform: translateY(-45px) scale(1.1); }
+              100% { opacity: 0; transform: translateY(-60px) scale(0.7); }
           }
 
-          /* 他のキーフレーム... */
+          @keyframes floatParticle2 {
+              0% { opacity: 0; transform: translateX(0) translateY(0) scale(0.5); }
+              25% { opacity: 0.4; transform: translateX(-8px) translateY(-12px) scale(0.8); }
+              50% { opacity: 0.7; transform: translateX(-15px) translateY(-25px) scale(1); }
+              75% { opacity: 1; transform: translateX(-23px) translateY(-38px) scale(1.2); }
+              100% { opacity: 0; transform: translateX(-30px) translateY(-50px) scale(0.6); }
+          }
+
+          @keyframes floatParticle3 {
+              0% { opacity: 0; transform: translateX(0) translateY(0) scale(0.5); }
+              25% { opacity: 0.3; transform: translateX(10px) translateY(-8px) scale(0.7); }
+              50% { opacity: 0.6; transform: translateX(20px) translateY(-15px) scale(1); }
+              75% { opacity: 1; transform: translateX(30px) translateY(-23px) scale(1.1); }
+              100% { opacity: 0; transform: translateX(40px) translateY(-30px) scale(0.8); }
+          }
+
+          @keyframes floatParticle4 {
+              0%, 70% { opacity: 0; transform: translateY(0) scale(0.8); }
+              78% { opacity: 0.9; transform: translateY(-30px) scale(1); }
+              88% { opacity: 1; transform: translateY(-60px) scale(1.3); }
+              100% { opacity: 0; transform: translateY(-120px) scale(0.5); }
+          }
+
+          @keyframes floatParticle5 {
+              0%, 82% { opacity: 0; transform: translateX(0) translateY(0) scale(0.9); }
+              86% { opacity: 0.8; transform: translateX(-10px) translateY(-20px) scale(1); }
+              94% { opacity: 1; transform: translateX(-20px) translateY(-40px) scale(1.1); }
+              100% { opacity: 0; transform: translateX(-40px) translateY(-90px) scale(0.7); }
+          }
+
+          @keyframes floatParticle6 {
+              0%, 77% { opacity: 0; transform: translateX(0) translateY(0) scale(0.8); }
+              82% { opacity: 0.7; transform: translateX(15px) translateY(-25px) scale(1); }
+              91% { opacity: 1; transform: translateX(30px) translateY(-50px) scale(1.2); }
+              100% { opacity: 0; transform: translateX(60px) translateY(-110px) scale(0.6); }
+          }
+
+          @keyframes floatParticle7 {
+              0%, 83% { opacity: 0; transform: translateY(0) scale(0.9); }
+              87% { opacity: 0.8; transform: translateY(-18px) scale(1); }
+              95% { opacity: 1; transform: translateY(-35px) scale(1.1); }
+              100% { opacity: 0; transform: translateY(-75px) scale(0.8); }
+          }
+
+          @keyframes floatParticle8 {
+              0%, 79% { opacity: 0; transform: translateX(0) translateY(0) scale(0.7); }
+              84% { opacity: 0.9; transform: translateX(-25px) translateY(-20px) scale(1); }
+              92% { opacity: 1; transform: translateX(-50px) translateY(-40px) scale(1.3); }
+              100% { opacity: 0; transform: translateX(-100px) translateY(-85px) scale(0.5); }
+          }
+
+          @keyframes floatParticle9 {
+              0%, 81% { opacity: 0; transform: translateY(0) scale(0.8); }
+              85% { opacity: 0.8; transform: translateY(-22px) scale(1); }
+              93% { opacity: 1; transform: translateY(-45px) scale(1.2); }
+              100% { opacity: 0; transform: translateY(-95px) scale(0.7); }
+          }
+
+          @keyframes floatParticle10 {
+              0%, 84% { opacity: 0; transform: translateX(0) translateY(0) scale(0.9); }
+              88% { opacity: 0.7; transform: translateX(18px) translateY(-16px) scale(1); }
+              96% { opacity: 1; transform: translateX(35px) translateY(-32px) scale(1.1); }
+              100% { opacity: 0; transform: translateX(70px) translateY(-80px) scale(0.8); }
+          }
+
+          @keyframes floatParticle11 {
+              0%, 76% { opacity: 0; transform: translateX(0) translateY(0) scale(0.8); }
+              81% { opacity: 0.9; transform: translateX(-12px) translateY(-28px) scale(1); }
+              89% { opacity: 1; transform: translateX(-24px) translateY(-55px) scale(1.3); }
+              100% { opacity: 0; transform: translateX(-50px) translateY(-115px) scale(0.6); }
+          }
+
+          @keyframes floatParticle12 {
+              0%, 86% { opacity: 0; transform: translateY(0) scale(0.7); }
+              90% { opacity: 0.8; transform: translateY(-24px) scale(1); }
+              97% { opacity: 1; transform: translateY(-48px) scale(1.2); }
+              100% { opacity: 0; transform: translateY(-100px) scale(0.8); }
+          }
+
+          @keyframes floatParticle13 {
+              0%, 78% { opacity: 0; transform: translateX(0) translateY(0) scale(0.9); }
+              83% { opacity: 0.7; transform: translateX(22px) translateY(-18px) scale(1); }
+              91% { opacity: 1; transform: translateX(45px) translateY(-35px) scale(1.1); }
+              100% { opacity: 0; transform: translateX(90px) translateY(-75px) scale(0.7); }
+          }
+
+          @keyframes floatParticle14 {
+              0%, 87% { opacity: 0; transform: translateX(0) translateY(0) scale(0.8); }
+              91% { opacity: 0.9; transform: translateX(-20px) translateY(-26px) scale(1); }
+              98% { opacity: 1; transform: translateX(-40px) translateY(-52px) scale(1.2); }
+              100% { opacity: 0; transform: translateX(-80px) translateY(-105px) scale(0.6); }
+          }
+
+          @keyframes floatParticle15 {
+              0%, 80% { opacity: 0; transform: translateY(0) scale(0.8); }
+              85% { opacity: 0.8; transform: translateY(-21px) scale(1); }
+              93% { opacity: 1; transform: translateY(-42px) scale(1.1); }
+              100% { opacity: 0; transform: translateY(-88px) scale(0.7); }
+          }
 
           .light-rays {
               position: fixed;
