@@ -116,10 +116,8 @@ export default function TodoItem({
       // 動的なクラス名の組み合わせ（三項演算子を使用）
       className={`transition-all duration-300 hover:shadow-lg hover:scale-[1.02] backdrop-blur-sm p-3 mb-3 rounded-lg border ${
         isSelected
-          // 選択中: 青いハイライト（Vimの選択状態を表現）
-          ? "bg-blue-500/20 border-blue-400 shadow-lg ring-2 ring-blue-400/50"
-          // 通常: グレー系の背景
-          : "bg-gray-800/50 border-gray-600"
+          ? "bg-blue-50 dark:bg-blue-900/30 border-blue-300 dark:border-blue-600 shadow-lg ring-2 ring-blue-300/50 dark:ring-blue-500/50"
+          : "bg-white/80 dark:bg-slate-800/80 border-slate-200 dark:border-slate-600 shadow-sm backdrop-blur-sm"
       }`}
       // CSSアニメーション: 各タスクが少しずつ時間差で表示される
       style={{ animationDelay: `${index * 50}ms` }}
@@ -127,8 +125,7 @@ export default function TodoItem({
       {/* タスクアイテム内の要素配置 */}
       <div className="flex items-center gap-3">
         
-        {/* 完了チェックボックス（将来の機能拡張用） */}
-        <Checkbox className="data-[state=checked]:bg-white data-[state=checked]:border-white" />
+        <Checkbox className="data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500" />
 
         {/* タスクの内容表示エリア（メインコンテンツ） */}
         <div className="flex-1">
@@ -139,8 +136,8 @@ export default function TodoItem({
               <Input
                 value={editingTask}                     // 現在の編集内容
                 placeholder="Edit task"                 // プレースホルダー
-                onChange={(e) => setEditingTask(e.target.value)}  // 入力内容の更新
-                className="flex-1 bg-gray-700/50 border-gray-600 text-white"
+                onChange={(e) => setEditingTask(e.target.value)}
+                className="flex-1 bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100"
                 onKeyDown={handleKeyDown}               // キーボードイベント
                 autoFocus                               // 編集開始時に自動フォーカス
                 disabled={isLoading}                    // ローディング中は無効化
@@ -152,18 +149,17 @@ export default function TodoItem({
                 variant="ghost"                         // 透明背景
                 onClick={() => onSave(task.id)}         // 保存処理を実行
                 disabled={isLoading}                    // ローディング中は無効化
-                className="text-gray-400 hover:text-green-400 hover:bg-green-400/10 transition-all duration-200"
+                className="text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-200"
               >
                 <Check className="w-4 h-4" />
               </Button>
               
-              {/* キャンセルボタン（×アイコン） */}
               <Button
                 size="sm"
                 variant="ghost"
-                onClick={cancelEditing}                 // 編集をキャンセル
+                onClick={cancelEditing}
                 disabled={isLoading}
-                className="text-gray-400 hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
+                className="text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-all duration-200"
               >
                 <X className="w-4 h-4" />
               </Button>
@@ -171,12 +167,10 @@ export default function TodoItem({
           ) : (
             // ===== 表示モード =====
             <div>
-              {/* タスクの内容テキスト */}
-              <p className="transition-all duration-200 text-white">
+              <p className="transition-all duration-200 text-slate-800 dark:text-slate-100 font-medium">
                 {task.task}
               </p>
-              {/* 作成日時の表示 */}
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 {/* ?. は オプショナルチェーン：createdAtがnullでもエラーにならない */}
                 {task.createdAt?.toLocaleDateString("ja-JP")}
               </p>
@@ -191,19 +185,18 @@ export default function TodoItem({
             <Button
               variant="ghost"
               size="sm"
-              className="text-gray-400 hover:text-blue-400 hover:bg-blue-400/10 transition-all duration-200"
+              className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200"
               onClick={() => startEditing(task)}       // 編集モードを開始
               disabled={isLoading}
             >
               <NotebookPen className="w-4 h-4" />
             </Button>
 
-            {/* 削除ボタン（ゴミ箱アイコン） */}
             <Button
               variant="ghost"
               size="sm"
-              className="text-gray-400 hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
-              onClick={() => onDelete(task.id)}        // 削除処理を実行
+              className="text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-all duration-200"
+              onClick={() => onDelete(task.id)}
               disabled={isLoading}
             >
               <Trash2 className="w-4 h-4" />

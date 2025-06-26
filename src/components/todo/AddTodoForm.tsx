@@ -82,18 +82,15 @@ export default function AddTodoForm({ vimHooks, todoHooks }: AddTodoFormProps) {
   // コンポーネントのUIを返す
   return (
     <>
-      {/* メインのカードコンテナ - 背景色とボーダーを設定 */}
-      <Card className="mb-6 bg-gray-800/50 border-gray-700 backdrop-blur-sm">
+      <Card className="mb-6 bg-white/90 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700 backdrop-blur-md shadow-lg">
         {/* カードのヘッダー部分 */}
         <CardHeader>
-          {/* カードのタイトル部分 - Vimモードの表示 */}
-          <CardTitle className="text-white flex items-center gap-2">
+          <CardTitle className="text-slate-800 dark:text-slate-100 flex items-center gap-2">
             {/* Vimモードを示すインジケーター（丸い点） */}
             <div
               className={`w-3 h-3 rounded-full ${
-                // INSERTモードの場合は緑色、NORMALモードの場合は赤色
-                vimHooks.mode === "insert" ? "bg-green-400" : "bg-red-400"
-              } animate-pulse`}
+                vimHooks.mode === "insert" ? "bg-emerald-500" : "bg-rose-500"
+              } animate-pulse shadow-sm`}
             />
             {/* 現在のVimモードをテキストで表示 */}
             {vimHooks.mode === "insert" ? "INSERT MODE" : "NORMAL MODE"}
@@ -128,11 +125,10 @@ export default function AddTodoForm({ vimHooks, todoHooks }: AddTodoFormProps) {
               }
               // キーボードイベントの処理
               onKeyDown={handleKeyDown}
-              // 動的なスタイル設定（Vimモードに応じて色を変更）
               className={`transition-all duration-200 ${
                 vimHooks.mode === "insert"
-                  ? "bg-gray-700/50 border-green-500 text-white placeholder:text-gray-400 focus:border-green-400 focus:ring-green-400/50"
-                  : "bg-gray-700/30 border-red-500/50 text-gray-500 placeholder:text-gray-500 cursor-not-allowed"
+                  ? "bg-white dark:bg-slate-700 border-emerald-300 dark:border-emerald-600 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:border-emerald-400 focus:ring-emerald-400/30"
+                  : "bg-slate-100 dark:bg-slate-700/50 border-rose-300/50 dark:border-rose-600/50 text-slate-500 placeholder:text-slate-400 cursor-not-allowed"
               }`}
             />
 
@@ -142,11 +138,10 @@ export default function AddTodoForm({ vimHooks, todoHooks }: AddTodoFormProps) {
               onClick={todoHooks.addTodo}
               // ボタンの無効化条件（NORMALモードまたは処理中の場合）
               disabled={vimHooks.mode === "normal" || todoHooks.isLoading}
-              // 動的なスタイル設定（Vimモードに応じて色を変更）
-              className={`transition-all duration-200 shadow-lg hover:shadow-xl ${
+              className={`transition-all duration-200 shadow-md hover:shadow-lg ${
                 vimHooks.mode === "insert"
-                  ? "bg-green-400 text-black hover:bg-green-300"
-                  : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                  ? "bg-emerald-500 hover:bg-emerald-600 text-white"
+                  : "bg-slate-300 dark:bg-slate-600 text-slate-400 cursor-not-allowed"
               }`}
             >
               {/* Plusアイコンを表示 */}

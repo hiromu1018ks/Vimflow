@@ -120,3 +120,145 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Vimflow Background Animation - Exact Mockup Recreation */
+/* Individual keyframes for each line with specific rotation */
+@keyframes flowRight1 {
+  0% { left: -100%; opacity: 0; transform: rotate(-15deg); }
+  5% { opacity: 0.6; }
+  95% { opacity: 0.6; }
+  100% { left: 100%; opacity: 0; transform: rotate(-15deg); }
+}
+
+@keyframes flowRight2 {
+  0% { left: -100%; opacity: 0; transform: rotate(18deg); }
+  5% { opacity: 0.6; }
+  95% { opacity: 0.6; }
+  100% { left: 100%; opacity: 0; transform: rotate(18deg); }
+}
+
+@keyframes flowRight3 {
+  0% { left: -100%; opacity: 0; transform: rotate(-22deg); }
+  5% { opacity: 0.6; }
+  95% { opacity: 0.6; }
+  100% { left: 100%; opacity: 0; transform: rotate(-22deg); }
+}
+
+@keyframes flowRight4 {
+  0% { left: -100%; opacity: 0; transform: rotate(12deg); }
+  5% { opacity: 0.6; }
+  95% { opacity: 0.6; }
+  100% { left: 100%; opacity: 0; transform: rotate(12deg); }
+}
+
+@keyframes flowLeft5 {
+  0% { right: -100%; opacity: 0; transform: rotate(25deg); }
+  5% { opacity: 0.6; }
+  95% { opacity: 0.6; }
+  100% { right: 100%; opacity: 0; transform: rotate(25deg); }
+}
+
+@keyframes flowLeft6 {
+  0% { right: -100%; opacity: 0; transform: rotate(-16deg); }
+  5% { opacity: 0.6; }
+  95% { opacity: 0.6; }
+  100% { right: 100%; opacity: 0; transform: rotate(-16deg); }
+}
+
+@keyframes flowLeft7 {
+  0% { right: -100%; opacity: 0; transform: rotate(20deg); }
+  5% { opacity: 0.6; }
+  95% { opacity: 0.6; }
+  100% { right: 100%; opacity: 0; transform: rotate(20deg); }
+}
+
+@keyframes flowLeft8 {
+  0% { right: -100%; opacity: 0; transform: rotate(-14deg); }
+  5% { opacity: 0.6; }
+  95% { opacity: 0.6; }
+  100% { right: 100%; opacity: 0; transform: rotate(-14deg); }
+}
+
+.flow-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(51, 51, 51, 0.4), transparent);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.dark .flow-line {
+  background: linear-gradient(90deg, transparent, rgba(203, 213, 225, 0.3), transparent);
+}
+
+
+/* Individual line definitions - each with unique keyframe */
+.flow-line-1 {
+  width: 400px;
+  top: 15%;
+  left: -400px;
+  animation: flowRight1 11s ease-in-out infinite !important;
+}
+
+.flow-line-2 {
+  width: 350px;
+  top: 35%;
+  left: -350px;
+  animation: flowRight2 10s ease-in-out infinite !important;
+  animation-delay: -2s;
+}
+
+.flow-line-3 {
+  width: 300px;
+  top: 55%;
+  left: -300px;
+  animation: flowRight3 12s ease-in-out infinite !important;
+  animation-delay: -4s;
+}
+
+.flow-line-4 {
+  width: 450px;
+  top: 75%;
+  left: -450px;
+  animation: flowRight4 9s ease-in-out infinite !important;
+  animation-delay: -6s;
+}
+
+.flow-line-5 {
+  width: 320px;
+  top: 25%;
+  right: -320px;
+  animation: flowLeft5 11s ease-in-out infinite !important;
+  animation-delay: -1s;
+}
+
+.flow-line-6 {
+  width: 380px;
+  top: 45%;
+  right: -380px;
+  animation: flowLeft6 8.5s ease-in-out infinite !important;
+  animation-delay: -3s;
+}
+
+.flow-line-7 {
+  width: 280px;
+  top: 65%;
+  right: -280px;
+  animation: flowLeft7 13s ease-in-out infinite !important;
+  animation-delay: -5s;
+}
+
+.flow-line-8 {
+  width: 360px;
+  top: 85%;
+  right: -360px;
+  animation: flowLeft8 9.5s ease-in-out infinite !important;
+  animation-delay: -7s;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .flow-line {
+    animation: none;
+  }
+}

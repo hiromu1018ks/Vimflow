@@ -69,39 +69,34 @@ export default function TodoList({
   
   if (todos.length === 0) {
     return (
-      // 空の状態を表示するカード
-      <Card className="bg-gray-800/30 border-gray-700 border-dashed">
+      <Card className="bg-white/85 dark:bg-slate-800/85 border-slate-300 dark:border-slate-600 border-dashed shadow-md backdrop-blur-sm">
         <CardContent className="p-8 text-center">
-          {/* 装飾用のサークルアイコン */}
-          <Circle className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+          <Circle className="w-12 h-12 text-slate-400 dark:text-slate-500 mx-auto mb-3" />
           
-          {/* メインメッセージ */}
-          <h3 className="text-white text-lg font-medium mb-2">No tasks yet</h3>
+          <h3 className="text-slate-800 dark:text-slate-100 text-lg font-medium mb-2">No tasks yet</h3>
           
-          {/* 操作方法の案内 */}
-          <p className="text-gray-400 mb-4">
+          <p className="text-slate-600 dark:text-slate-400 mb-4">
             Press{" "}
             {/* kbdタグ：キーボードキーを表現するセマンティックHTML */}
-            <kbd className="px-2 py-1 bg-gray-700 rounded text-green-400 font-mono text-sm">
+            <kbd className="px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded text-emerald-600 dark:text-emerald-400 font-mono text-sm">
               &apos;i&apos;
             </kbd>{" "}
             or{" "}
-            <kbd className="px-2 py-1 bg-gray-700 rounded text-green-400 font-mono text-sm">
+            <kbd className="px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded text-emerald-600 dark:text-emerald-400 font-mono text-sm">
               &apos;o&apos;
             </kbd>{" "}
             to add your first task
           </p>
           
-          {/* Vimショートカットのヘルプ */}
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-slate-500 dark:text-slate-400">
             <p>Vim shortcuts:</p>
             <div className="mt-2 space-y-1">
               <p>
-                <kbd className="px-1 bg-gray-700 rounded text-xs">j/k</kbd>{" "}
+                <kbd className="px-1 bg-slate-200 dark:bg-slate-700 rounded text-xs">j/k</kbd>{" "}
                 navigate •{" "}
-                <kbd className="px-1 bg-gray-700 rounded text-xs">dd</kbd>{" "}
+                <kbd className="px-1 bg-slate-200 dark:bg-slate-700 rounded text-xs">dd</kbd>{" "}
                 delete •{" "}
-                <kbd className="px-1 bg-gray-700 rounded text-xs">Enter</kbd>{" "}
+                <kbd className="px-1 bg-slate-200 dark:bg-slate-700 rounded text-xs">Enter</kbd>{" "}
                 edit
               </p>
             </div>
