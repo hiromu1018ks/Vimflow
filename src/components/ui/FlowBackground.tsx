@@ -514,7 +514,83 @@ function DarkModeAnimation({ intensity } : { intensity : string }) {
               animation-delay: 0.5s;
           }
 
-          /* 他の星の位置... */
+          .star-3 {
+              top: 30%;
+              left: 25%;
+              animation-delay: 1s;
+          }
+
+          .star-4 {
+              top: 45%;
+              left: 70%;
+              animation-delay: 1.5s;
+          }
+
+          .star-5 {
+              top: 60%;
+              left: 10%;
+              animation-delay: 2s;
+          }
+
+          .star-6 {
+              top: 75%;
+              left: 85%;
+              animation-delay: 2.5s;
+          }
+
+          .star-7 {
+              top: 5%;
+              left: 50%;
+              animation-delay: 3s;
+          }
+
+          .star-8 {
+              top: 85%;
+              left: 40%;
+              animation-delay: 0.8s;
+          }
+
+          .star-9 {
+              top: 35%;
+              left: 90%;
+              animation-delay: 1.3s;
+          }
+
+          .star-10 {
+              top: 65%;
+              left: 60%;
+              animation-delay: 2.8s;
+          }
+
+          .star-11 {
+              top: 15%;
+              left: 35%;
+              animation-delay: 0.3s;
+          }
+
+          .star-12 {
+              top: 80%;
+              left: 75%;
+              animation-delay: 1.8s;
+          }
+
+          .star-13 {
+              top: 25%;
+              left: 5%;
+              animation-delay: 2.3s;
+          }
+
+          .star-14 {
+              top: 55%;
+              left: 95%;
+              animation-delay: 1.1s;
+          }
+
+          .star-15 {
+              top: 40%;
+              left: 20%;
+              animation-delay: 2.6s;
+          }
 
           @keyframes twinkle {
               0%, 100% {
@@ -552,37 +628,101 @@ function DarkModeAnimation({ intensity } : { intensity : string }) {
           /* 各流れ星の初期位置と回転 */
           .shooting-star-1 {
               top: 15%;
-              left: 20%;
-              transform: rotate(-20deg); /* 少し回転させる */
-              animation: shootingStar1 15s linear infinite; /* shootingStar1アニメーションを適用 */
+              left: 10%;
+              animation: shootingStar1 8s linear infinite;
+              animation-delay: 0s;
           }
 
-          /* 他の流れ星の位置... */
+          .shooting-star-2 {
+              top: 30%;
+              left: 90%;
+              animation: shootingStar2 12s linear infinite;
+              animation-delay: 3s;
+          }
+
+          .shooting-star-3 {
+              top: 60%;
+              left: 5%;
+              animation: shootingStar3 10s linear infinite;
+              animation-delay: 6s;
+          }
+
+          .shooting-star-4 {
+              top: 80%;
+              left: 85%;
+              animation: shootingStar4 9s linear infinite;
+              animation-delay: 2s;
+          }
+
+          .shooting-star-5 {
+              top: 5%;
+              left: 60%;
+              animation: shootingStar5 11s linear infinite;
+              animation-delay: 7s;
+          }
+
+          .shooting-star-6 {
+              top: 45%;
+              left: 95%;
+              animation: shootingStar6 13s linear infinite;
+              animation-delay: 4s;
+          }
+
+          .shooting-star-7 {
+              top: 70%;
+              left: 15%;
+              animation: shootingStar7 8.5s linear infinite;
+              animation-delay: 5s;
+          }
 
           @keyframes shootingStar1 {
-              0%, 95% {
-                  opacity: 0;
-                  transform: translateX(0) translateY(0) rotate(-20deg);
-              }
-              /* 最初と95%の時点では透明で初期位置 */
-              96% {
-                  opacity: 1;
-                  transform: translateX(0) translateY(0) rotate(-20deg);
-              }
-              /* 96%で突然現れる */
-              98% {
-                  opacity: 1;
-                  transform: translateX(80px) translateY(30px) rotate(-20deg);
-              }
-              /* 98%で移動して光る */
-              100% {
-                  opacity: 0;
-                  transform: translateX(0) translateY(0) rotate(-20deg);
-              }
-              /* 100%で透明になり、初期位置に戻る（次のアニメーションのために） */
+              0%, 90% { opacity: 0; transform: translateX(0) translateY(0) rotate(-45deg); }
+              92% { opacity: 0.8; transform: translateX(20px) translateY(20px) rotate(-45deg); }
+              95% { opacity: 1; transform: translateX(60px) translateY(60px) rotate(-45deg); }
+              100% { opacity: 0; transform: translateX(120px) translateY(120px) rotate(-45deg); }
           }
 
-          /* 他の流れ星のアニメーション... */
+          @keyframes shootingStar2 {
+              0%, 85% { opacity: 0; transform: translateX(0) translateY(0) rotate(135deg); }
+              88% { opacity: 0.9; transform: translateX(-25px) translateY(25px) rotate(135deg); }
+              93% { opacity: 1; transform: translateX(-70px) translateY(70px) rotate(135deg); }
+              100% { opacity: 0; transform: translateX(-130px) translateY(130px) rotate(135deg); }
+          }
+
+          @keyframes shootingStar3 {
+              0%, 88% { opacity: 0; transform: translateX(0) translateY(0) rotate(-30deg); }
+              91% { opacity: 0.7; transform: translateX(30px) translateY(15px) rotate(-30deg); }
+              96% { opacity: 1; transform: translateX(80px) translateY(40px) rotate(-30deg); }
+              100% { opacity: 0; transform: translateX(140px) translateY(70px) rotate(-30deg); }
+          }
+
+          @keyframes shootingStar4 {
+              0%, 87% { opacity: 0; transform: translateX(0) translateY(0) rotate(120deg); }
+              90% { opacity: 0.8; transform: translateX(-20px) translateY(-15px) rotate(120deg); }
+              95% { opacity: 1; transform: translateX(-60px) translateY(-45px) rotate(120deg); }
+              100% { opacity: 0; transform: translateX(-110px) translateY(-80px) rotate(120deg); }
+          }
+
+          @keyframes shootingStar5 {
+              0%, 89% { opacity: 0; transform: translateX(0) translateY(0) rotate(-60deg); }
+              92% { opacity: 0.9; transform: translateX(25px) translateY(35px) rotate(-60deg); }
+              97% { opacity: 1; transform: translateX(65px) translateY(90px) rotate(-60deg); }
+              100% { opacity: 0; transform: translateX(100px) translateY(140px) rotate(-60deg); }
+          }
+
+          @keyframes shootingStar6 {
+              0%, 86% { opacity: 0; transform: translateX(0) translateY(0) rotate(150deg); }
+              89% { opacity: 0.8; transform: translateX(-30px) translateY(20px) rotate(150deg); }
+              94% { opacity: 1; transform: translateX(-75px) translateY(50px) rotate(150deg); }
+              100% { opacity: 0; transform: translateX(-125px) translateY(85px) rotate(150deg); }
+          }
+
+          @keyframes shootingStar7 {
+              0%, 91% { opacity: 0; transform: translateX(0) translateY(0) rotate(-15deg); }
+              94% { opacity: 0.7; transform: translateX(35px) translateY(10px) rotate(-15deg); }
+              98% { opacity: 1; transform: translateX(85px) translateY(25px) rotate(-15deg); }
+              100% { opacity: 0; transform: translateX(135px) translateY(40px) rotate(-15deg); }
+          }
       ` }</style>
     </>
   );

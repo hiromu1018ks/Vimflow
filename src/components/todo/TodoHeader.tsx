@@ -9,7 +9,7 @@ export default function TodoHeader() {
           alt="Vimflow - Elegant Task Management"
           width={ 160 }
           height={ 160 }
-          className="mx-auto w-32 h-32 sm:w-40 sm:h-40 filter drop-shadow-lg dark:drop-shadow-2xl"
+          className="mx-auto w-32 h-32 sm:w-40 sm:h-40 filter drop-shadow-lg dark:drop-shadow-2xl dark:invert transition-all duration-300"
           priority
         />
       </div>
