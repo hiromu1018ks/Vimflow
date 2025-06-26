@@ -7,9 +7,9 @@ export default function TodoHeader() {
         <Image
           src="/Vimflow-logo.svg"
           alt="Vimflow - Elegant Task Management"
-          width={120}
-          height={120}
-          className="mx-auto w-24 h-24 sm:w-32 sm:h-32 filter drop-shadow-lg"
+          width={160}
+          height={160}
+          className="mx-auto w-32 h-32 sm:w-40 sm:h-40 filter drop-shadow-lg"
           priority
         />
       </div>
