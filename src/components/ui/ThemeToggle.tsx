@@ -1,6 +1,7 @@
 "use client";
 
-import { useTheme } from "@/contexts/ThemeContext"; // useThemeフックをインポート
+import { useTheme } from "@/contexts/ThemeContext";
+import { Moon, Sun } from "lucide-react"; // useThemeフックをインポート
 
 export default function ThemeToggle() {
   const { toggleTheme, isDark } = useTheme(); // テーマ情報と切り替え関数を取得
@@ -25,13 +26,11 @@ export default function ThemeToggle() {
       <span className="flex items-center gap-2">
         { isDark ? ( // isDarkがtrueならライトモードへの切り替え表示
           <>
-            <span className="text-lg">☀️</span> {/* 太陽の絵文字 */ }
-            <span>Light Mode</span>
+            <span className="text-lg"><Sun/></span> {/* 太陽の絵文字 */ }
           </>
         ) : ( // isDarkがfalseならダークモードへの切り替え表示
           <>
-            <span className="text-lg">🌙</span> {/* 月の絵文字 */ }
-            <span>Dark Mode</span>
+            <span className="text-lg"><Moon/></span> {/* 月の絵文字 */ }
           </>
         ) }
       </span>

@@ -64,10 +64,19 @@ export function ThemeProvider({ children } : { children : React.ReactNode }) {
     setTheme(prev => prev === "light" ? "dark" : "light");
   }
 
-  // まだマウントされていない場合はテーマ機能なしで子コンポーネントをレンダリング
-  // これによりサーバーサイドレンダリング時のクラス不整合を防ぐ
+  // まだマウントされていない場合はデフォルト値でThemeProviderを提供
+  // これによりサーバーサイドレンダリング時のクラス不整合を防ぎつつ、useThemeを使用可能にする
   if ( !mounted ) {
-    return <div>{ children }</div>
+    return (
+      <ThemeContext.Provider
+        value={ {
+          theme: "light",
+          toggleTheme: () => {},
+          isDark: false
+        } }>
+        { children }
+      </ThemeContext.Provider>
+    )
   }
 
   // テーマコンテキストプロバイダーで子コンポーネントをラップ
