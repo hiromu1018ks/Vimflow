@@ -1,38 +1,40 @@
+"use client"
+
 import { getAllTask } from "@/types/type";
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export type VimMode = "normal" | "insert";
 
 interface UseVimModeParams {
-  todos: getAllTask[];
-  editingId: string | null;
-  onAddTodo: () => void;
-  onDeleteTodo: (id: string) => void;
-  onStartEditing: (task: getAllTask) => void;
+  todos : getAllTask[];
+  editingId : string | null;
+  onAddTodo : () => void;
+  onDeleteTodo : (id : string) => void;
+  onStartEditing : (task : getAllTask) => void;
 }
 
 interface UseVimModeReturn {
-  mode: VimMode;
-  selectedIndex: number;
-  commandBuffer: string;
-  setMode: (mode: VimMode) => void;
-  setSelectedIndex: (index: number) => void;
+  mode : VimMode;
+  selectedIndex : number;
+  commandBuffer : string;
+  setMode : (mode : VimMode) => void;
+  setSelectedIndex : (index : number) => void;
 }
 
-export const useVimMode = (params: UseVimModeParams): UseVimModeReturn => {
+export const useVimMode = (params : UseVimModeParams) : UseVimModeReturn => {
   const { todos, editingId, onDeleteTodo, onStartEditing } = params;
 
-  const [mode, setMode] = useState<"normal" | "insert">("normal");
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const [commandBuffer, setCommandBuffer] = useState<string>("");
+  const [ mode, setMode ] = useState<"normal" | "insert">("normal");
+  const [ selectedIndex, setSelectedIndex ] = useState<number>(0);
+  const [ commandBuffer, setCommandBuffer ] = useState<string>("");
 
   // ===== vimモード設定 =====
 
   // ノーマルモードのキー操作を処理する関数
-  const handleNormalMode = useCallback((e: KeyboardEvent) => {
+  const handleNormalMode = useCallback((e : KeyboardEvent) => {
     e.preventDefault(); // ブラウザのデフォルト動作を無効化
 
-    switch (e.key) {
+    switch ( e.key ) {
       // 下に移動：jキーで次のタスクに移動
       case "j":
         setSelectedIndex((prev) => Math.min(prev + 1, todos.length - 1));
@@ -43,7 +45,7 @@ export const useVimMode = (params: UseVimModeParams): UseVimModeReturn => {
         break;
       // ggコマンド：最初のタスクに移動
       case "g":
-        if (commandBuffer === "g") {
+        if ( commandBuffer === "g" ) {
           setSelectedIndex(0); // 最初のタスクに移動
           setCommandBuffer(""); // コマンドバッファをクリア
         } else {
@@ -71,17 +73,17 @@ export const useVimMode = (params: UseVimModeParams): UseVimModeReturn => {
         break;
       case "Enter":
         // 選択されたタスクを編集
-        if (todos[selectedIndex]) {
+        if ( todos[selectedIndex] ) {
           onStartEditing(todos[selectedIndex]);
         }
         break;
       case "d":
-        if (commandBuffer === "d") {
+        if ( commandBuffer === "d" ) {
           // ddコマンド：選択されたタスクを削除
-          if (todos[selectedIndex]) {
+          if ( todos[selectedIndex] ) {
             onDeleteTodo(todos[selectedIndex].id);
             // インデックスを調整
-            if (selectedIndex >= todos.length - 1) {
+            if ( selectedIndex >= todos.length - 1 ) {
               setSelectedIndex(Math.max(0, todos.length - 2));
             }
           }
@@ -99,22 +101,22 @@ export const useVimMode = (params: UseVimModeParams): UseVimModeReturn => {
         setCommandBuffer("");
         break;
     }
-  }, [todos, selectedIndex, commandBuffer, onStartEditing, onDeleteTodo]);
+  }, [ todos, selectedIndex, commandBuffer, onStartEditing, onDeleteTodo ]);
 
-  const handleInsertMode = useCallback((e: KeyboardEvent) => {
+  const handleInsertMode = useCallback((e : KeyboardEvent) => {
     // Escapeキーでノーマルモードに戻る
-    if (e.key === "Escape") {
+    if ( e.key === "Escape" ) {
       e.preventDefault();
       setMode("normal");
       return;
     }
-    
+
     // Ctrl+Cでノーマルモードに戻る（Vimの標準動作）
-    if (e.ctrlKey && e.key === "c") {
+    if ( e.ctrlKey && e.key === "c" ) {
       e.preventDefault();
       setMode("normal");
       // フォーカスを外してインサートモードを終了
-      if (e.target instanceof HTMLInputElement) {
+      if ( e.target instanceof HTMLInputElement ) {
         e.target.blur();
       }
       return;
@@ -122,22 +124,22 @@ export const useVimMode = (params: UseVimModeParams): UseVimModeReturn => {
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e : KeyboardEvent) => {
       // 編集モード中は通常のキー操作を許可
-      if (editingId) return;
+      if ( editingId ) return;
 
-      if (mode === "normal") {
+      if ( mode === "normal" ) {
         // Input要素にフォーカスがある場合はスキップ（ノーマルモード時のみ）
-        if (e.target instanceof HTMLInputElement) return;
+        if ( e.target instanceof HTMLInputElement ) return;
         handleNormalMode(e);
-      } else if (mode === "insert") {
+      } else if ( mode === "insert" ) {
         // インサートモード時は、Escape や Ctrl+C は処理する
         handleInsertMode(e);
       }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [mode, editingId, handleNormalMode, handleInsertMode]);
+  }, [ mode, editingId, handleNormalMode, handleInsertMode ]);
 
   return {
     mode,
