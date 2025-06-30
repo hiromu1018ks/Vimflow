@@ -58,7 +58,7 @@ export default function TodoApp({ session } : TodoAppProps) {
         intensity="normal"
       />
 
-      <div className="fixed top-4 right-4 z-30 p-4">
+      <div className="fixed top-4 right-4 z-30">
         <div className="flex items-center space-x-3">
           {/*{ドロップダウンメニューを配置}*/ }
           <UserDropdown/>

@@ -15,7 +15,7 @@ export default function UserDropdown() {
       {/*ドロップダウントリガー*/ }
       <button
         onClick={ () => setIsOpen(!isOpen) }
-        className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+        className="flex items-center space-x-2 h-10 px-3 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600"
       >
         { session.user?.image && (
           <img
