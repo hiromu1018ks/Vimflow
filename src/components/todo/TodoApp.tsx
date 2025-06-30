@@ -6,11 +6,12 @@ import { useTodos } from "@/hooks/useTodos";
 import { useTaskEdit } from "@/hooks/useTaskEdit";
 import { useVimMode } from "@/hooks/useVimMode";
 import FlowBackground from "@/components/ui/FlowBackground";
-import ThemeToggle from "@/components/ui/ThemeToggle";
 import TodoHeader from "@/components/todo/TodoHeader";
 import AddTodoForm from "@/components/todo/AddTodoForm";
 import TodoList from "@/components/todo/TodoList";
 import Footer from "@/components/todo/Footer";
+import UserDropdown from "@/components/auth/UserDropdown";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 interface TodoAppProps {
   session : Session
@@ -57,8 +58,15 @@ export default function TodoApp({ session } : TodoAppProps) {
         intensity="normal"
       />
 
-      {/* テーマ切り替えボタンを配置 */ }
-      <ThemeToggle/>
+      <div className="fixed top-4 right-4 z-30 p-4">
+        <div className="flex items-center space-x-3">
+          {/*{ドロップダウンメニューを配置}*/ }
+          <UserDropdown/>
+
+          {/* テーマ切り替えボタンを配置 */ }
+          <ThemeToggle/>
+        </div>
+      </div>
 
       {/* アプリケーションの主要コンテンツ */ }
       <div className="relative z-10 max-w-2xl mx-auto pt-8">

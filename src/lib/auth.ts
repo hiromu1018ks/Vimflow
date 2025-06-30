@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
 
 // Prismaクライアントのインスタンスを作成
 // これによりデータベースとの接続が可能になる
@@ -23,6 +24,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId : process.env.GOOGLE_CLIENT_ID!,
       // Googleクライアントシークレット（環境変数から取得、オプション項目）
       clientSecret : process.env.GOOGLE_CLIENT_SECRET,
+    }),
+    GitHub({
+      clientId : process.env.AUTH_GITHUB_ID!,
+      clientSecret : process.env.AUTH_GITHUB_SECRET
     })
   ],
 
@@ -31,6 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // サインインページのパスを指定
     // デフォルトのNextAuthサインインページの代わりにカスタムページを使用
     signIn : "/auth/signin",
+    signOut : "/auth/signout"
   },
 
   // コールバック関数の設定
