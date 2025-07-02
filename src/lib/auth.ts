@@ -46,15 +46,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       },
       async authorize(credentials) {
-        console.log("=== AUTHORIZE START ===");
         if ( !credentials?.email || !credentials?.password ) {
-          console.log("認証失敗：メールアドレスまたはパスワードが未入力")
           return null;
         }
 
         const email = credentials.email as string
         const password = credentials.password as string
-        console.log("認証試行:", email);
 
         try {
           const user = await prisma.user.findUnique({
@@ -64,7 +61,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           });
 
           if ( !user || !user.password ) {
-            console.log("認証失敗: ユーザーが見つからないか、パスワードが設定されていません");
             return null;
           }
 
@@ -74,13 +70,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
 
           if ( !isPasswordValid ) {
-            console.log("認証失敗: パスワードが正しくありません");
             return null;
           }
-
-          console.log("認証成功:", user.email);
-          console.log("返却するユーザーオブジェクト:", user);
-          console.log("=== AUTHORIZE END ===");
 
           return user;
         } catch ( error ) {
@@ -125,43 +116,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     // JWT戦略でのセッション情報設定
     async session({ session, token }) {
-      console.log("=== SESSION CALLBACK ===");
-      console.log("Session:", session);
-      console.log("Token:", token);
-      
       // JWTトークンからセッションにユーザー情報を設定
       if (token && session.user) {
         session.user.id = token.sub!; // JWTのsubjectがユーザーID
         session.user.email = token.email!;
         session.user.name = token.name;
       }
-      console.log("Updated session:", session);
-      console.log("=======================");
       return session;
     },
 
     // JWTトークン生成時の処理
     async jwt({ token, user }) {
-      console.log("=== JWT CALLBACK ===");
-      console.log("Token:", token);
-      console.log("User:", user);
-      
       // 初回ログイン時（userが存在する場合）にトークンにユーザー情報を追加
       if (user) {
         token.sub = user.id;
         token.email = user.email;
         token.name = user.name;
       }
-      console.log("Updated token:", token);
-      console.log("===================");
       return token;
     },
 
-    async signIn({ user, account }) {
-      console.log("=== SIGNIN CALLBACK ===");
-      console.log("User:", user);
-      console.log("Account:", account);
-      console.log("======================");
+    async signIn({}) {
       return true;
     }
   },
