@@ -46,6 +46,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       },
       async authorize(credentials) {
+        console.log("=== AUTHORIZE START ===");
         if ( !credentials?.email || !credentials?.password ) {
           console.log("認証失敗：メールアドレスまたはパスワードが未入力")
           return null;
@@ -53,6 +54,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const email = credentials.email as string
         const password = credentials.password as string
+        console.log("認証試行:", email);
 
         try {
           const user = await prisma.user.findUnique({
@@ -76,7 +78,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return null;
           }
 
-          console.log("認証成功:", user.email)
+          console.log("認証成功:", user.email);
+          console.log("返却するユーザーオブジェクト:", user);
+          console.log("=== AUTHORIZE END ===");
 
           return user;
         } catch ( error ) {
@@ -96,7 +100,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 
   session : {
-    strategy : "database",
+    strategy : "jwt",
     maxAge : 30 * 24 * 60 * 60
   },
 
@@ -105,32 +109,59 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks : {
     authorized({ auth, request : { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isOnProtectedRoute = nextUrl.pathname.startsWith('/'); // 保護対象のパス
       const isOnAuthPage = nextUrl.pathname.startsWith('/auth/');
 
-      // 保護されたルートへのアクセス
-      if ( isOnProtectedRoute && !isOnAuthPage ) {
-        if ( !isLoggedIn ) return false;
-      }
-
-      // ログイン済みユーザーが認証ページにアクセスした場合
+      // ログイン済みユーザーが認証ページにアクセスした場合はホームページにリダイレクト
       if ( isLoggedIn && isOnAuthPage ) {
         return Response.redirect(new URL('/', nextUrl));
       }
 
+      // 未ログインユーザーがルートパス以外にアクセスした場合はログインページにリダイレクト
+      if ( !isLoggedIn && !isOnAuthPage && nextUrl.pathname !== '/' ) {
+        return Response.redirect(new URL('/auth/signin', nextUrl));
+      }
+
       return true;
     },
-    // 🆕 database戦略でのセッション情報設定
-    async session({ session, user }) {
-      // database戦略では userオブジェクトにはデータベースから取得されたユーザー情報が含まれる
-      if ( user && session.user ) {
-        session.user.id = user.id;
-        // 必要に応じて追加のユーザー情報を設定
+    // JWT戦略でのセッション情報設定
+    async session({ session, token }) {
+      console.log("=== SESSION CALLBACK ===");
+      console.log("Session:", session);
+      console.log("Token:", token);
+      
+      // JWTトークンからセッションにユーザー情報を設定
+      if (token && session.user) {
+        session.user.id = token.sub!; // JWTのsubjectがユーザーID
+        session.user.email = token.email!;
+        session.user.name = token.name;
       }
+      console.log("Updated session:", session);
+      console.log("=======================");
       return session;
     },
 
-    async signIn({}) {
+    // JWTトークン生成時の処理
+    async jwt({ token, user }) {
+      console.log("=== JWT CALLBACK ===");
+      console.log("Token:", token);
+      console.log("User:", user);
+      
+      // 初回ログイン時（userが存在する場合）にトークンにユーザー情報を追加
+      if (user) {
+        token.sub = user.id;
+        token.email = user.email;
+        token.name = user.name;
+      }
+      console.log("Updated token:", token);
+      console.log("===================");
+      return token;
+    },
+
+    async signIn({ user, account }) {
+      console.log("=== SIGNIN CALLBACK ===");
+      console.log("User:", user);
+      console.log("Account:", account);
+      console.log("======================");
       return true;
     }
   },

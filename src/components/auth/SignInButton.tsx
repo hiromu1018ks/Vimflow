@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Mail } from "lucide-react";
 import Link from "next/link";
 
 /**
@@ -177,7 +177,7 @@ export default function SignInButton() {
           {/* ログイン実行ボタン */ }
           <Button
             type="submit"
-            className="w-full"
+            className="w-full transition-transform duration-200 active:scale-95"
             disabled={ isLoading || !formData.email || !formData.password }
           >
             { isLoading ? (
@@ -211,7 +211,7 @@ export default function SignInButton() {
             setFormData({ email : "", password : "" });
           } }
           variant="outline"
-          className="w-full"
+          className="w-full transition-transform duration-200 active:scale-95"
           disabled={ isLoading }
         >
           他の方法でログイン
@@ -232,10 +232,10 @@ export default function SignInButton() {
       {/* メールアドレスログイン選択ボタン */ }
       <Button
         onClick={ () => setIsCredentials(true) }
-        className="w-full"
+        className="w-full transition-transform duration-200 active:scale-95"
         variant="default"
       >
-        📧 メールアドレスでログイン
+        <Mail/> メールアドレスでログイン
       </Button>
 
       {/* 区切り線（視覚的な分離） */ }
@@ -251,7 +251,7 @@ export default function SignInButton() {
       {/* Google OAuth認証ボタン */ }
       <Button
         onClick={ () => signIn('google', { callbackUrl : '/' }) }
-        className="w-full"
+        className="w-full transition-transform duration-200 active:scale-95"
         variant="outline"
       >
         {/* Googleアイコン（SVG） */ }
@@ -279,7 +279,7 @@ export default function SignInButton() {
       {/* GitHub OAuth認証ボタン */ }
       <Button
         onClick={ () => signIn('github', { callbackUrl : '/' }) }
-        className="w-full"
+        className="w-full transition-transform duration-200 active:scale-95"
         variant="outline"
       >
         {/* GitHubアイコン（SVG） */ }
