@@ -1,90 +1,200 @@
-# Basic Todo App
+# Vimflow ⚡
 
-このプロジェクトは、Next.js 14、Prisma、NextAuth.js を使用して構築されたシンプルなToDo管理アプリケーションです。ユーザー認証、タスクの作成、読み取り、更新、削除（CRUD）機能、およびテーマ切り替え機能を備えています。
+> A modern todo application with Vim-style keyboard navigation
 
-## 機能
+Vimflow combines the power of modern web technologies with the efficiency of Vim keybindings, creating a unique and productive task management experience.
 
-- **ユーザー認証**: NextAuth.js を使用した安全な認証システム。
-- **タスク管理**:
-  - タスクの追加
-  - タスクの一覧表示
-  - タスクの完了状態の切り替え
-  - タスクの編集
-  - タスクの削除
-- **テーマ切り替え**: ライトモードとダークモードの切り替え。
-- **Vimキーバインド**: (もし実装されていれば) Vimライクなキーバインドでの操作。
+## ✨ Features
 
-## 使用技術
+### 🎯 Core Functionality
+- **Vim-style Navigation**: Navigate with `j`/`k`, edit with `i`/`o`, delete with `dd`
+- **Task Management**: Create, edit, complete, and delete tasks
+- **User Authentication**: Secure sign-up and sign-in system
+- **Real-time Updates**: Instant UI updates with optimistic rendering
 
-- **フレームワーク**: [Next.js 14](https://nextjs.org/) (App Router)
-- **データベース**: [Prisma](https://www.prisma.io/) (ORM)
-- **認証**: [NextAuth.js](https://next-auth.js.org/)
-- **UIコンポーネント**: [Radix UI](https://www.radix-ui.com/)
-- **スタイリング**: [Tailwind CSS](https://tailwindcss.com/)
-- **型定義**: [TypeScript](https://www.typescriptlang.org/)
+### 🎨 User Experience
+- **Theme Switching**: Light/dark mode with system preference detection
+- **Interactive Backgrounds**: Animated neural networks (dark) and flowing orbs (light)
+- **Responsive Design**: Optimized for all screen sizes
+- **Custom Error Pages**: Beautiful 404 and error handling
 
-## セットアップ
+### ⌨️ Vim Keybindings
 
-### 1. リポジトリのクローン
+| Key | Mode | Action |
+|-----|------|--------|
+| `j` | Normal | Move down |
+| `k` | Normal | Move up |
+| `gg` | Normal | Go to first task |
+| `G` | Normal | Go to last task |
+| `o` | Normal | Add new task (insert mode) |
+| `i` | Normal | Insert mode for new task |
+| `Enter` | Normal | Edit selected task |
+| `dd` | Normal | Delete selected task |
+| `Esc` | Insert | Return to normal mode |
+| `Ctrl+C` | Insert | Return to normal mode |
 
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 15 (App Router) + TypeScript
+- **Styling**: Tailwind CSS + shadcn/ui components
+- **Database**: PostgreSQL + Prisma ORM
+- **Authentication**: NextAuth.js v5
+- **Icons**: Lucide React
+- **Validation**: Zod
+
+## 📁 Project Structure
+
+```
+src/
+├── app/                 # Next.js App Router pages
+│   ├── api/tasks/      # Task CRUD API endpoints
+│   ├── auth/           # Authentication pages
+│   └── page.tsx        # Main todo page
+├── components/
+│   ├── auth/           # Authentication components
+│   ├── navigation/     # Navigation components
+│   ├── todo/           # Todo-specific components
+│   └── ui/             # Reusable UI components
+├── hooks/
+│   ├── useTodos.ts     # Task CRUD operations
+│   ├── useTaskEdit.ts  # Task editing logic
+│   ├── useVimMode.ts   # Vim navigation system
+│   └── useMousePosition.ts # Mouse tracking for animations
+├── contexts/           # React contexts (theme, etc.)
+└── types/              # TypeScript type definitions
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+ 
+- PostgreSQL database
+- npm/yarn/pnpm
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/Vimflow.git
+   cd Vimflow
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` with your values:
+   ```env
+   DATABASE_URL="postgresql://user:password@localhost:5432/vimflow"
+   NEXTAUTH_SECRET="your-secret-key"
+   NEXTAUTH_URL="http://localhost:3000"
+   ```
+
+4. **Set up the database**
+   ```bash
+   # Start PostgreSQL (using Docker)
+   docker-compose up -d
+   
+   # Push schema to database
+   npm run db:push
+   
+   # (Optional) Seed with sample data
+   npm run db:seed
+   ```
+
+5. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) to see the application.
+
+## 📝 Available Scripts
+
+### Development
 ```bash
-git clone https://github.com/your-username/basic-todo-app.git
-cd basic-todo-app
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
 ```
 
-### 2. 依存関係のインストール
-
+### Database
 ```bash
-npm install
-# または
-yarn install
-# または
-pnpm install
-# または
-bun install
+npm run db:push      # Push schema changes
+npm run db:studio    # Open Prisma Studio
+npm run db:seed      # Seed database
 ```
 
-### 3. 環境変数の設定
-
-プロジェクトのルートディレクトリに `.env` ファイルを作成し、以下の環境変数を設定します。
-
-```env
-DATABASE_URL="postgresql://user:password@localhost:5432/mydb?schema=public"
-NEXTAUTH_SECRET="YOUR_NEXTAUTH_SECRET"
-NEXTAUTH_URL="http://localhost:3000"
-```
-
-- `DATABASE_URL`: 使用するデータベースの接続文字列。PostgreSQL, MySQL, SQLite など、Prismaがサポートするデータベースを使用できます。
-- `NEXTAUTH_SECRET`: NextAuth.js のセッションを保護するための秘密鍵。`openssl rand -base64 32` などで生成できます。
-- `NEXTAUTH_URL`: アプリケーションがデプロイされるURL。開発環境では `http://localhost:3000`。
-
-### 4. データベースのセットアップ
-
-Prismaを使用してデータベーススキーマを適用し、初期データを投入します。
-
+### Docker
 ```bash
-# データベーススキーマを適用
-npm run db:push
-
-# 初期データを投入 (オプション)
-npm run db:seed
+docker-compose up -d # Start PostgreSQL container
 ```
 
-### 5. 開発サーバーの起動
+## 🎨 Custom Hooks Architecture
 
-```bash
-npm run dev
-# または
-yarn dev
-# または
-pnpm dev
-# または
-bun dev
+Vimflow uses a clean separation of concerns through custom hooks:
+
+- **`useTodos`**: Handles all CRUD operations and loading states
+- **`useTaskEdit`**: Manages task editing mode and operations  
+- **`useVimMode`**: Implements Vim-style keyboard navigation
+- **`useMousePosition`**: Smooth mouse tracking for background animations
+
+## 🔒 Authentication
+
+Built with NextAuth.js v5 featuring:
+- Email/password authentication
+- Secure password hashing with bcryptjs
+- Session management
+- Protected API routes
+- User-specific task isolation
+
+## 🎭 Background Animations
+
+Dynamic backgrounds that respond to your theme:
+- **Dark Mode**: Neural network with particle connections
+- **Light Mode**: Flowing interactive orbs
+- **Mouse Interaction**: Particles react to cursor movement
+- **Performance Optimized**: Smooth 60fps animations
+
+## 🚧 Database Schema
+
+```prisma
+model Task {
+  id        String   @id @default(uuid())
+  task      String
+  completed Boolean  @default(false)
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+}
 ```
 
-ブラウザで [http://localhost:3000](http://localhost:3000) を開くとアプリケーションが表示されます。
+## 🤝 Contributing
 
-## デプロイ
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-Next.js アプリケーションのデプロイには、[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) を使用するのが最も簡単です。詳細については、[Next.js デプロイメントドキュメント](https://nextjs.org/docs/app/building-your-application/deploying) を参照してください。
+## 📄 License
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Inspired by the efficiency of Vim
+- Built with modern React patterns
+- Powered by the Next.js ecosystem
+
+---
+
+**Happy task managing with Vim efficiency!** ⚡
