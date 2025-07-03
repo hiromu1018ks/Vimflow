@@ -6,7 +6,8 @@ import { auth } from "@/lib/auth";
 const prisma = new PrismaClient();
 
 const updateTaskSchema = z.object({
-  task : z.string().min(1),
+  task : z.string().min(1).optional(),
+  completed: z.boolean().optional(),
 });
 
 export async function PUT(
@@ -31,11 +32,17 @@ export async function PUT(
       return NextResponse.json({ error : "Task not found" }, { status : 404 });
     }
 
+    const updateData: { task?: string; completed?: boolean } = {};
+    if (validatedData.task !== undefined) {
+      updateData.task = validatedData.task;
+    }
+    if (validatedData.completed !== undefined) {
+      updateData.completed = validatedData.completed;
+    }
+
     await prisma.task.update({
       where : { id },
-      data : {
-        task : validatedData.task,
-      },
+      data : updateData,
     });
 
     return NextResponse.json({

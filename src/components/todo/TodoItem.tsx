@@ -38,6 +38,7 @@ interface TodoItemProps {
   // ===== アクション（操作）関連 =====
   onSave: (id: string) => Promise<void>;     // タスクを保存する関数
   onDelete: (id: string) => Promise<void>;   // タスクを削除する関数
+  onToggleComplete:(id:string)=>Promise<void>;
 
   // ===== UI状態関連 =====
   isLoading?: boolean;                        // ローディング中かどうか（?は省略可能の意味）
@@ -68,6 +69,7 @@ export default function TodoItem({
   startEditing,   // 編集を開始する関数
   onSave,         // 保存処理の関数
   onDelete,       // 削除処理の関数
+  onToggleComplete,
   cancelEditing,  // 編集キャンセルの関数
   isLoading,      // ローディング状態
 }: TodoItemProps) {
@@ -108,6 +110,10 @@ export default function TodoItem({
     }
   };
 
+  const toggleComplete = async () => {
+    await onToggleComplete(task.id);
+  }
+
   // ===== JSXの返却（UIの描画） =====
   
   return (
@@ -125,7 +131,11 @@ export default function TodoItem({
       {/* タスクアイテム内の要素配置 */}
       <div className="flex items-center gap-3">
         
-        <Checkbox className="data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500" />
+        <Checkbox
+          checked={task.completed}
+          onCheckedChange={toggleComplete}
+          disabled={isLoading}
+          className="data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500" />
 
         {/* タスクの内容表示エリア（メインコンテンツ） */}
         <div className="flex-1">
@@ -167,7 +177,11 @@ export default function TodoItem({
           ) : (
             // ===== 表示モード =====
             <div>
-              <p className="transition-all duration-200 text-slate-800 dark:text-slate-100 font-medium">
+              <p className={`transition-all duration-200 font-medium ${
+                  task.completed
+                    ? "text-slate-500 dark:text-slate-400 line-through"
+                    : "text-slate-800 dark:text-slate-100"
+                }`}>
                 {task.task}
               </p>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">

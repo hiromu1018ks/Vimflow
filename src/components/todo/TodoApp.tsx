@@ -30,6 +30,7 @@ export default function TodoApp({ session } : TodoAppProps) {
     onAddTodo : todoHooks.addTodo,
     onDeleteTodo : todoHooks.deleteTodo,
     onStartEditing : editHooks.startEditing,
+    onToggleComplete : todoHooks.completeTodo,
   });
 
   /**
@@ -83,6 +84,7 @@ export default function TodoApp({ session } : TodoAppProps) {
           cancelEditing={ editHooks.cancelEditing }
           onSave={ handleSaveTask }
           onDelete={ todoHooks.deleteTodo }
+          onToggleComplete={todoHooks.completeTodo}
           isLoading={ todoHooks.isLoading }
         />
         <Footer/>

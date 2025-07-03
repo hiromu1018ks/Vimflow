@@ -11,6 +11,7 @@ interface UseVimModeParams {
   onAddTodo : () => void;
   onDeleteTodo : (id : string) => void;
   onStartEditing : (task : getAllTask) => void;
+  onToggleComplete : (id : string) => void;
 }
 
 interface UseVimModeReturn {
@@ -22,7 +23,7 @@ interface UseVimModeReturn {
 }
 
 export const useVimMode = (params : UseVimModeParams) : UseVimModeReturn => {
-  const { todos, editingId, onDeleteTodo, onStartEditing } = params;
+  const { todos, editingId, onDeleteTodo, onStartEditing, onToggleComplete } = params;
 
   const [ mode, setMode ] = useState<"normal" | "insert">("normal");
   const [ selectedIndex, setSelectedIndex ] = useState<number>(0);
@@ -72,6 +73,12 @@ export const useVimMode = (params : UseVimModeParams) : UseVimModeReturn => {
         }, 0);
         break;
       case "Enter":
+        // 選択されたタスクの完了状態を切り替え
+        if ( todos[selectedIndex] ) {
+          onToggleComplete(todos[selectedIndex].id);
+        }
+        break;
+      case "e":
         // 選択されたタスクを編集
         if ( todos[selectedIndex] ) {
           onStartEditing(todos[selectedIndex]);
@@ -101,7 +108,7 @@ export const useVimMode = (params : UseVimModeParams) : UseVimModeReturn => {
         setCommandBuffer("");
         break;
     }
-  }, [ todos, selectedIndex, commandBuffer, onStartEditing, onDeleteTodo ]);
+  }, [ todos, selectedIndex, commandBuffer, onStartEditing, onDeleteTodo, onToggleComplete ]);
 
   const handleInsertMode = useCallback((e : KeyboardEvent) => {
     // Escapeキーでノーマルモードに戻る

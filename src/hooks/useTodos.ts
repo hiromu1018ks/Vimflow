@@ -16,6 +16,7 @@ export interface UseTodosReturn {
   setNewTodo : (todo : createTask) => void; // 新規タスクの更新関数
   addTodo : () => Promise<void>; // タスク追加関数（非同期）
   deleteTodo : (id : string) => Promise<void>; // タスク削除関数（非同期）
+  completeTodo:(id:string)=> Promise<void>; // タスク完了関数（非同期）　
   getAllTodos : () => Promise<void>; // タスク一覧取得関数（非同期）
   isLoading : boolean; // ローディング状態
   error : string | null; // エラーメッセージ（エラーがない場合はnull）
@@ -175,6 +176,39 @@ export const useTodos = () : UseTodosReturn => {
     }
   };
 
+  const completeTodo = async (id:string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const currentTask = todos.find(task => task.id === id);
+      if ( !currentTask ) {
+        throw new Error("Task not found");
+      }
+
+      const response = await fetch(`${URL}/tasks/${id}`, {
+        method:"PUT",
+        headers:{
+          "Content-Type":"application/json",
+        },
+        body:JSON.stringify({
+          completed:!currentTask.completed
+        }),
+        });
+
+      if ( !response.ok ) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      await getAllTodos();
+    } catch ( error ) {
+     const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      setError(errorMessage);
+      console.error("Failed to toggle task completion:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   /**
    * 指定されたIDのタスクを削除する関数
    *
@@ -278,6 +312,7 @@ export const useTodos = () : UseTodosReturn => {
     newTodo, // 新規作成中のタスク
     setNewTodo, // 新規タスクの更新関数
     addTodo, // タスク追加関数
+    completeTodo,
     deleteTodo, // タスク削除関数
     getAllTodos, // タスク一覧取得関数
     isLoading, // ローディング状態

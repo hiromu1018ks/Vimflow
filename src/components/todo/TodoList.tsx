@@ -33,6 +33,7 @@ interface TodoListProps {
   // ===== アクション関連 =====
   onSave: (id: string) => Promise<void>;     // 保存処理の関数
   onDelete: (id: string) => Promise<void>;   // 削除処理の関数
+  onToggleComplete:(id:string)=>Promise<void>;
 
   // ===== UI状態関連 =====
   isLoading?: boolean;                        // ローディング中かどうか
@@ -62,6 +63,7 @@ export default function TodoList({
   cancelEditing,  // 編集をキャンセルする関数
   onSave,         // 保存処理の関数
   onDelete,       // 削除処理の関数
+  onToggleComplete,
   isLoading = false, // ローディング状態（デフォルト値：false）
 }: TodoListProps) {
   
@@ -131,6 +133,7 @@ export default function TodoList({
           cancelEditing={cancelEditing}    // 編集キャンセル関数
           onSave={onSave}                  // 保存処理関数
           onDelete={onDelete}              // 削除処理関数
+          onToggleComplete={onToggleComplete}
           isLoading={isLoading}            // ローディング状態
         />
       ))}
