@@ -35,6 +35,8 @@ interface AddTodoFormProps {
     addTodo: () => Promise<void>;
     // タスク追加処理中かどうかを示すフラグ
     isLoading: boolean;
+    error:string | null;
+    clearError:()=>void;
   };
 }
 
@@ -100,53 +102,81 @@ export default function AddTodoForm({ vimHooks, todoHooks }: AddTodoFormProps) {
         {/* カードの内容部分 */}
         <CardContent className="space-y-4">
           {/* 入力フィールドとボタンを横並びにするコンテナ */}
-          <div className="flex gap-3">
-            {/* タスク入力フィールド */}
-            <Input
-              // 入力フィールドのID（アクセシビリティ用）
-              id="new-task-input"
-              // プレースホルダーテキスト（入力例の表示）
-              placeholder={
-                vimHooks.mode === "insert"
-                  ? "Type your task and press Enter..."
-                  : "Press 'i' or 'o' to add a task"
-              }
-              // 入力フィールドの現在の値（制御されたコンポーネント）
-              value={todoHooks.newTodo.task}
-              // 入力フィールドの無効化条件（NORMALモードまたは処理中の場合）
-              disabled={vimHooks.mode === "normal" || todoHooks.isLoading}
-              // 入力値が変更された時の処理
-              onChange={(e) =>
-                // 新しいタスクの内容を更新（スプレッド構文で既存の値を保持）
-                todoHooks.setNewTodo({
-                  ...todoHooks.newTodo,
-                  task: e.target.value,
-                })
-              }
-              // キーボードイベントの処理
-              onKeyDown={handleKeyDown}
-              className={`transition-all duration-200 ${
-                vimHooks.mode === "insert"
-                  ? "bg-white dark:bg-slate-700 border-emerald-300 dark:border-emerald-600 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:border-emerald-400 focus:ring-emerald-400/30"
-                  : "bg-slate-100 dark:bg-slate-700/50 border-rose-300/50 dark:border-rose-600/50 text-slate-500 placeholder:text-slate-400 cursor-not-allowed"
-              }`}
-            />
+          {/* 入力エリア */}
+          <div className="space-y-3">
+            {/* 入力フィールドとボタン */}
+            <div className="flex gap-3">
+              <div className="flex-1 relative">
+                <Input
+                  id="new-task-input"
+                  placeholder={
+                    vimHooks.mode === "insert"
+                      ? "Type your task and press Enter..."
+                      : "Press 'i' or 'o' to add a task"
+                  }
+                  value={todoHooks.newTodo.task}
+                  maxLength={200}
+                  disabled={vimHooks.mode === "normal" || todoHooks.isLoading}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value.length <= 200) {
+                      todoHooks.setNewTodo({
+                        ...todoHooks.newTodo,
+                        task: value,
+                      });
+                    }
+                  }}
+                  onKeyDown={handleKeyDown}
+                  className={`transition-all duration-200 pr-16 ${
+                    vimHooks.mode === "insert"
+                      ? "bg-white dark:bg-slate-700 border-emerald-300 dark:border-emerald-600 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:border-emerald-400 focus:ring-emerald-400/30"
+                      : "bg-slate-100 dark:bg-slate-700/50 border-rose-300/50 dark:border-rose-600/50 text-slate-500 placeholder:text-slate-400 cursor-not-allowed"
+                  }`}
+                />
+                {/* 文字数カウンター（入力フィールド内） */}
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 dark:text-slate-500 pointer-events-none">
+                  {todoHooks.newTodo.task.length}/200
+                </div>
+              </div>
+              
+              <Button
+                onClick={todoHooks.addTodo}
+                disabled={vimHooks.mode === "normal" || todoHooks.isLoading}
+                className={`transition-all duration-200 shadow-md hover:shadow-lg ${
+                  vimHooks.mode === "insert"
+                    ? "bg-emerald-500 hover:bg-emerald-600 text-white"
+                    : "bg-slate-300 dark:bg-slate-600 text-slate-400 cursor-not-allowed"
+                }`}
+              >
+                <Plus className="w-4 h-4" />
+              </Button>
+            </div>
 
-            {/* タスク追加ボタン */}
-            <Button
-              // ボタンクリック時の処理
-              onClick={todoHooks.addTodo}
-              // ボタンの無効化条件（NORMALモードまたは処理中の場合）
-              disabled={vimHooks.mode === "normal" || todoHooks.isLoading}
-              className={`transition-all duration-200 shadow-md hover:shadow-lg ${
-                vimHooks.mode === "insert"
-                  ? "bg-emerald-500 hover:bg-emerald-600 text-white"
-                  : "bg-slate-300 dark:bg-slate-600 text-slate-400 cursor-not-allowed"
-              }`}
-            >
-              {/* Plusアイコンを表示 */}
-              <Plus className="w-4 h-4" />
-            </Button>
+            {/* 文字数制限警告 */}
+            {todoHooks.newTodo.task.length > 180 && (
+              <div className="flex items-center gap-2 px-3 py-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                <div className="w-1 h-1 bg-amber-500 rounded-full animate-pulse"></div>
+                <span className="text-sm text-amber-700 dark:text-amber-300">
+                  残り{200 - todoHooks.newTodo.task.length}文字
+                </span>
+              </div>
+            )}
+
+            {/* エラー表示 */}
+            {todoHooks.error && (
+              <div className="flex items-center gap-3 px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                <div className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></div>
+                <span className="text-sm text-red-700 dark:text-red-300 flex-1">
+                  {todoHooks.error}
+                </span>
+                <button
+                  onClick={todoHooks.clearError}
+                  className="text-red-400 hover:text-red-600 dark:text-red-500 dark:hover:text-red-300 transition-colors p-1 rounded hover:bg-red-100 dark:hover:bg-red-800/30"
+                >
+                  <Plus className="w-3 h-3 rotate-45" />
+                </button>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>

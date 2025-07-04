@@ -6,7 +6,10 @@ import { auth } from "@/lib/auth";
 const prisma = new PrismaClient();
 
 const taskSchema = z.object({
-  task : z.string().min(1),
+  task : z.string()
+    .min(1,"タスクを入力してください")
+    .max(200,"タスクは200文字以内で入力してください")
+    .regex(/^[^<>]*$/,"使用できない文字が含まれています")
 });
 
 // GET /api/tasks
