@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc3798d4-dd3a-4237-9912-e1bd2fbc07d9" name="変更" comment="不要なコードを削除: NavBarコンポーネントを廃止し、関連する未使用のコードとエレメントを整理。ファイル全体でPrettierフォーマットを適用し、コーディングスタイルを統一。">
+    <list default="true" id="bc3798d4-dd3a-4237-9912-e1bd2fbc07d9" name="変更" comment="依存関係を追加: テスト関連ライブラリ (Vitest, Testing Library など) と Babel 関連ツールを導入し、開発環境を拡張。">
+      <change afterPath="$PROJECT_DIR$/tests/components/Button.test.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/setup.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vitest.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eslint.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/eslint.config.mjs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +33,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -61,6 +63,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.Next.js: サーバーサイド.executor": "Run",
+    "prettierjs.PrettierConfiguration.Package": "/Users/hiromu/Develop/Vimflow/node_modules/prettier",
     "settings.editor.selected.configurable": "settings.javascript.prettier",
     "ts.external.directory.path": "/Users/hiromu/Develop/Vimflow/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
@@ -110,7 +113,7 @@
       <workItem from="1751636026596" duration="5000" />
       <workItem from="1751776889551" duration="6330000" />
       <workItem from="1751793202288" duration="377000" />
-      <workItem from="1751793592689" duration="7866000" />
+      <workItem from="1751793592689" duration="10630000" />
     </task>
     <task id="LOCAL-00001" summary="アプリ名を変更: プロジェクト名を &quot;basic-todo-app&quot; から &quot;Vimflow&quot; に更新。">
       <option name="closed" value="true" />
@@ -168,11 +171,30 @@
       <option name="project" value="LOCAL" />
       <updated>1751803700037</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="依存関係を追加: テスト関連ライブラリ (Vitest, Testing Library など) と Babel 関連ツールを導入し、開発環境を拡張。">
+      <option name="closed" value="true" />
+      <created>1751805174717</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1751805174717</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="アプリ名を変更: プロジェクト名を &quot;basic-todo-app&quot; から &quot;Vimflow&quot; に更新。" />
@@ -191,6 +213,7 @@
     <MESSAGE value="Prettierのフォーマットルールを全面適用: ファイル全体のコーディングスタイルを統一し、セミコロンやスペースの一貫性を確保。" />
     <MESSAGE value="コードスタイルを統一: セミコロンの追加、インデント修正、コメントのフォーマット改善により一貫性を向上させ、全体的な可読性を強化。" />
     <MESSAGE value="不要なコードを削除: NavBarコンポーネントを廃止し、関連する未使用のコードとエレメントを整理。ファイル全体でPrettierフォーマットを適用し、コーディングスタイルを統一。" />
-    <option name="LAST_COMMIT_MESSAGE" value="不要なコードを削除: NavBarコンポーネントを廃止し、関連する未使用のコードとエレメントを整理。ファイル全体でPrettierフォーマットを適用し、コーディングスタイルを統一。" />
+    <MESSAGE value="依存関係を追加: テスト関連ライブラリ (Vitest, Testing Library など) と Babel 関連ツールを導入し、開発環境を拡張。" />
+    <option name="LAST_COMMIT_MESSAGE" value="依存関係を追加: テスト関連ライブラリ (Vitest, Testing Library など) と Babel 関連ツールを導入し、開発環境を拡張。" />
   </component>
 </project>
