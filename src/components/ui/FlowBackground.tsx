@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
-import { useSmoothMousePositionAsRef } from '@/hooks/useMousePosition';
+import { useSmoothMousePositionAsRef } from "@/hooks/useMousePosition";
 
 interface FlowBackgroundProps {
   enabled?: boolean;
@@ -13,15 +13,15 @@ interface FlowBackgroundProps {
 export default function FlowBackground({
   enabled = true,
   intensity = "normal",
-  className = ""
+  className = "",
 }: FlowBackgroundProps) {
   const { isDark } = useTheme();
 
   if (!enabled) return null;
 
   const backgroundStyle = isDark
-    ? 'radial-gradient(ellipse at center, #0d1a26 0%, #000000 70%)'
-    : 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 30%, #f1f3f4 70%, #ffffff 100%)';
+    ? "radial-gradient(ellipse at center, #0d1a26 0%, #000000 70%)"
+    : "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 30%, #f1f3f4 70%, #ffffff 100%)";
 
   return (
     <div
@@ -43,22 +43,25 @@ const NeuralNetworkAnimation = ({ intensity }: { intensity: string }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePositionRef = useSmoothMousePositionAsRef(0.08);
 
-  const getParticleCount = () => {
+  const getParticleCount = useCallback(() => {
     switch (intensity) {
-      case 'light': return 80;
-      case 'strong': return 200;
-      default: return 120;
+      case "light":
+        return 80;
+      case "strong":
+        return 200;
+      default:
+        return 120;
     }
-  };
+  }, [intensity]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     let animationFrameId: number;
-    const particles: any[] = [];
+    const particles: Particle[] = [];
     const particleCount = getParticleCount();
 
     const resizeCanvas = () => {
@@ -76,10 +79,14 @@ const NeuralNetworkAnimation = ({ intensity }: { intensity: string }) => {
       velocityY: number = 0;
       wanderAngle: number;
       time: number = Math.random() * 100;
+      canvas: HTMLCanvasElement;
+      ctx: CanvasRenderingContext2D;
 
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+      constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+        this.canvas = canvas;
+        this.ctx = ctx;
+        this.x = Math.random() * this.canvas.width;
+        this.y = Math.random() * this.canvas.height;
         this.originX = this.x;
         this.originY = this.y;
         this.size = Math.random() * 1.5 + 0.5;
@@ -100,7 +107,7 @@ const NeuralNetworkAnimation = ({ intensity }: { intensity: string }) => {
           const dx = mouseX - this.x;
           const dy = mouseY - this.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          
+
           const attractionDistance = 250;
           const repulsionDistance = 80;
 
@@ -111,7 +118,9 @@ const NeuralNetworkAnimation = ({ intensity }: { intensity: string }) => {
             this.velocityY -= (dy / distance) * force * 0.8;
           } else if (distance < attractionDistance) {
             // 引き寄せ
-            const force = (distance - repulsionDistance) / (attractionDistance - repulsionDistance);
+            const force =
+              (distance - repulsionDistance) /
+              (attractionDistance - repulsionDistance);
             this.velocityX += (dx / distance) * force * 0.2;
             this.velocityY += (dy / distance) * force * 0.2;
           }
@@ -127,7 +136,9 @@ const NeuralNetworkAnimation = ({ intensity }: { intensity: string }) => {
         this.velocityY *= 0.95;
 
         const maxSpeed = 2;
-        const speed = Math.sqrt(this.velocityX * this.velocityX + this.velocityY * this.velocityY);
+        const speed = Math.sqrt(
+          this.velocityX * this.velocityX + this.velocityY * this.velocityY,
+        );
         if (speed > maxSpeed) {
           this.velocityX = (this.velocityX / speed) * maxSpeed;
           this.velocityY = (this.velocityY / speed) * maxSpeed;
@@ -138,27 +149,34 @@ const NeuralNetworkAnimation = ({ intensity }: { intensity: string }) => {
       }
 
       draw() {
-        ctx!.beginPath();
-        const glow = ctx!.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 5);
-        glow.addColorStop(0, 'rgba(100, 200, 255, 0.8)');
-        glow.addColorStop(0.5, 'rgba(0, 150, 255, 0.3)');
-        glow.addColorStop(1, 'rgba(0, 50, 150, 0)');
-        
-        ctx!.fillStyle = glow;
-        ctx!.arc(this.x, this.y, this.size * 5, 0, Math.PI * 2);
-        ctx!.fill();
+        this.ctx.beginPath();
+        const glow = this.ctx.createRadialGradient(
+          this.x,
+          this.y,
+          0,
+          this.x,
+          this.y,
+          this.size * 5,
+        );
+        glow.addColorStop(0, "rgba(100, 200, 255, 0.8)");
+        glow.addColorStop(0.5, "rgba(0, 150, 255, 0.3)");
+        glow.addColorStop(1, "rgba(0, 50, 150, 0)");
 
-        ctx!.beginPath();
-        ctx!.fillStyle = 'rgba(255, 255, 255, 0.9)';
-        ctx!.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx!.fill();
+        this.ctx.fillStyle = glow;
+        this.ctx.arc(this.x, this.y, this.size * 5, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        this.ctx.beginPath();
+        this.ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+        this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        this.ctx.fill();
       }
     }
 
     const init = () => {
       particles.length = 0;
       for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
+        particles.push(new Particle(canvas, ctx));
       }
     };
 
@@ -171,7 +189,7 @@ const NeuralNetworkAnimation = ({ intensity }: { intensity: string }) => {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < connectDistance) {
-            const opacity = 1 - (distance / connectDistance);
+            const opacity = 1 - distance / connectDistance;
             ctx!.strokeStyle = `rgba(100, 200, 255, ${opacity * 0.5})`;
             ctx!.lineWidth = 1;
             ctx!.beginPath();
@@ -186,7 +204,7 @@ const NeuralNetworkAnimation = ({ intensity }: { intensity: string }) => {
     const animate = () => {
       ctx!.clearRect(0, 0, canvas.width, canvas.height);
       const mouse = mousePositionRef.current;
-      particles.forEach(p => {
+      particles.forEach((p) => {
         p.update(mouse.x, mouse.y);
         p.draw();
       });
@@ -198,45 +216,49 @@ const NeuralNetworkAnimation = ({ intensity }: { intensity: string }) => {
     init();
     animate();
 
-    window.addEventListener('resize', () => {
-        resizeCanvas();
-        init();
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+      init();
     });
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', () => {
+      window.removeEventListener("resize", () => {
         resizeCanvas();
         init();
       });
     };
-  }, [intensity]);
+  }, [intensity, getParticleCount, mousePositionRef]);
 
-  return <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />;
+  return (
+    <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
+  );
 };
-
 
 // --- ライトモード：インタラクティブ・オーブ --- //
 const InteractiveOrbsAnimation = ({ intensity }: { intensity: string }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePositionRef = useSmoothMousePositionAsRef(0.06);
 
-  const getOrbCount = () => {
+  const getOrbCount = useCallback(() => {
     switch (intensity) {
-      case 'light': return 10;
-      case 'strong': return 25;
-      default: return 15;
+      case "light":
+        return 10;
+      case "strong":
+        return 25;
+      default:
+        return 15;
     }
-  };
+  }, [intensity]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     let animationFrameId: number;
-    const orbs: any[] = [];
+    const orbs: Orb[] = [];
     const orbCount = getOrbCount();
 
     const resizeCanvas = () => {
@@ -253,11 +275,15 @@ const InteractiveOrbsAnimation = ({ intensity }: { intensity: string }) => {
       velocityY: number = 0;
       hue: number;
       time: number = Math.random() * 100;
+      canvas: HTMLCanvasElement;
+      ctx: CanvasRenderingContext2D;
 
-      constructor() {
+      constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         const margin = 100;
-        this.x = margin + Math.random() * (canvas.width - margin * 2);
-        this.y = margin + Math.random() * (canvas.height - margin * 2);
+        this.canvas = canvas;
+        this.ctx = ctx;
+        this.x = margin + Math.random() * (this.canvas.width - margin * 2);
+        this.y = margin + Math.random() * (this.canvas.height - margin * 2);
         this.baseSize = Math.random() * 60 + 40;
         this.size = this.baseSize;
         this.hue = Math.random() * 60 + 200; // Hues from blue to purple
@@ -284,22 +310,23 @@ const InteractiveOrbsAnimation = ({ intensity }: { intensity: string }) => {
         const wanderSpeed = 0.1;
         this.velocityX += (Math.random() - 0.5) * wanderSpeed;
         this.velocityY += (Math.random() - 0.5) * wanderSpeed;
-        
+
         // 3. Flow Field
         const flowStrength = 0.05;
         this.velocityX += Math.sin(this.y / 100 + this.time) * flowStrength;
         this.velocityY += Math.cos(this.x / 100 + this.time) * flowStrength;
 
-
         // 4. Friction & Speed Limit
         this.velocityX *= 0.96;
         this.velocityY *= 0.96;
-        
+
         const maxSpeed = 1.5;
-        const speed = Math.sqrt(this.velocityX*this.velocityX + this.velocityY*this.velocityY);
+        const speed = Math.sqrt(
+          this.velocityX * this.velocityX + this.velocityY * this.velocityY,
+        );
         if (speed > maxSpeed) {
-            this.velocityX = (this.velocityX / speed) * maxSpeed;
-            this.velocityY = (this.velocityY / speed) * maxSpeed;
+          this.velocityX = (this.velocityX / speed) * maxSpeed;
+          this.velocityY = (this.velocityY / speed) * maxSpeed;
         }
 
         this.x += this.velocityX;
@@ -307,41 +334,60 @@ const InteractiveOrbsAnimation = ({ intensity }: { intensity: string }) => {
 
         // 5. Screen Boundaries (Soft Bounce)
         const margin = this.size;
-        if (this.x < margin) { this.x = margin; this.velocityX *= -0.5; }
-        if (this.x > canvas.width - margin) { this.x = canvas.width - margin; this.velocityX *= -0.5; }
-        if (this.y < margin) { this.y = margin; this.velocityY *= -0.5; }
-        if (this.y > canvas.height - margin) { this.y = canvas.height - margin; this.velocityY *= -0.5; }
+        if (this.x < margin) {
+          this.x = margin;
+          this.velocityX *= -0.5;
+        }
+        if (this.x > this.canvas.width - margin) {
+          this.x = this.canvas.width - margin;
+          this.velocityX *= -0.5;
+        }
+        if (this.y < margin) {
+          this.y = margin;
+          this.velocityY *= -0.5;
+        }
+        if (this.y > this.canvas.height - margin) {
+          this.y = this.canvas.height - margin;
+          this.velocityY *= -0.5;
+        }
       }
 
       draw() {
-        ctx!.save();
-        ctx!.globalCompositeOperation = 'lighter';
+        this.ctx.save();
+        this.ctx!.globalCompositeOperation = "lighter";
 
-        const gradient = ctx!.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+        const gradient = this.ctx.createRadialGradient(
+          this.x,
+          this.y,
+          0,
+          this.x,
+          this.y,
+          this.size,
+        );
         gradient.addColorStop(0, `hsla(${this.hue}, 90%, 80%, 0.8)`);
         gradient.addColorStop(0.5, `hsla(${this.hue}, 85%, 70%, 0.4)`);
         gradient.addColorStop(1, `hsla(${this.hue}, 80%, 60%, 0)`);
 
-        ctx!.fillStyle = gradient;
-        ctx!.beginPath();
-        ctx!.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx!.fill();
-        
-        ctx!.restore();
+        this.ctx.fillStyle = gradient;
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        this.ctx.restore();
       }
     }
 
     const init = () => {
       orbs.length = 0;
       for (let i = 0; i < orbCount; i++) {
-        orbs.push(new Orb());
+        orbs.push(new Orb(canvas, ctx));
       }
     };
 
     const animate = () => {
       ctx!.clearRect(0, 0, canvas.width, canvas.height);
       const mouse = mousePositionRef.current;
-      orbs.forEach(o => {
+      orbs.forEach((o) => {
         o.update(mouse.x, mouse.y);
         o.draw();
       });
@@ -352,19 +398,21 @@ const InteractiveOrbsAnimation = ({ intensity }: { intensity: string }) => {
     init();
     animate();
 
-    window.addEventListener('resize', () => {
-        resizeCanvas();
-        init();
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+      init();
     });
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', () => {
+      window.removeEventListener("resize", () => {
         resizeCanvas();
         init();
       });
     };
-  }, [intensity]);
+  }, [intensity, getOrbCount, mousePositionRef]);
 
-  return <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />;
+  return (
+    <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
+  );
 };

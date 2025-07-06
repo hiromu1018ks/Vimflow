@@ -7,7 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import FlowBackground from "@/components/ui/FlowBackground";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
 interface PasswordValidation {
@@ -22,7 +28,7 @@ export default function RegisterPage() {
     name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -35,13 +41,15 @@ export default function RegisterPage() {
       length: password.length >= 8,
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
-      number: /\d/.test(password)
+      number: /\d/.test(password),
     };
   };
 
   const passwordValidation = validatedPassword(formData.password);
   const isPasswordValid = Object.values(passwordValidation).every(Boolean);
-  const isPasswordMatch = formData.password === formData.confirmPassword && formData.confirmPassword !== "";
+  const isPasswordMatch =
+    formData.password === formData.confirmPassword &&
+    formData.confirmPassword !== "";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,8 +75,8 @@ export default function RegisterPage() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          password: formData.password
-        })
+          password: formData.password,
+        }),
       });
 
       const data = await response.json();
@@ -80,7 +88,7 @@ export default function RegisterPage() {
         const signInResult = await signIn("credentials", {
           email: formData.email,
           password: formData.password,
-          redirect: false
+          redirect: false,
         });
 
         if (signInResult?.ok) {
@@ -96,7 +104,7 @@ export default function RegisterPage() {
       } else {
         setError(data.error || "登録に失敗しました");
       }
-    } catch (error) {
+    } catch {
       setError("ネットワークエラーが発生しました");
     } finally {
       setIsLoading(false);
@@ -108,33 +116,37 @@ export default function RegisterPage() {
   };
 
   const strength = getPasswordStrength();
-  const strengthColors = ["bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-green-500"];
+  const strengthColors = [
+    "bg-red-500",
+    "bg-orange-500",
+    "bg-yellow-500",
+    "bg-green-500",
+  ];
   const strengthLabels = ["弱い", "普通", "良い", "強い"];
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
     if (error) setError("");
   };
 
   const renderForm = () => (
     <div className="relative w-full h-screen">
       <FlowBackground />
-      
+
       {/* テーマ切り替えボタン */}
       <div className="absolute top-4 right-4 z-10">
         <ThemeToggle />
       </div>
-      
+
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         {success ? (
           <Card className="w-[450px] bg-white/80 dark:bg-black/80 backdrop-blur-sm text-center">
             <CardContent className="p-10">
               <CheckCircle className="mx-auto h-16 w-16 text-green-500" />
-              <h2 className="text-2xl font-bold mt-4">
-                登録完了！
-              </h2>
+              <h2 className="text-2xl font-bold mt-4">登録完了！</h2>
               <p className="text-muted-foreground mt-2">
-                ユーザー登録が完了しました。<br />
+                ユーザー登録が完了しました。
+                <br />
                 アプリケーションを開始します...
               </p>
             </CardContent>
@@ -145,9 +157,7 @@ export default function RegisterPage() {
               <CardTitle className="text-2xl font-bold">
                 新規ユーザー登録
               </CardTitle>
-              <CardDescription>
-                Vimflowを始めましょう
-              </CardDescription>
+              <CardDescription>Vimflowを始めましょう</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -192,7 +202,9 @@ export default function RegisterPage() {
                       id="password"
                       type={showPassword ? "text" : "password"}
                       value={formData.password}
-                      onChange={(e) => handleInputChange("password", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("password", e.target.value)
+                      }
                       placeholder="パスワードを入力"
                       required
                       disabled={isLoading}
@@ -212,7 +224,7 @@ export default function RegisterPage() {
                       <div className="flex items-center gap-2">
                         <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
                           <div
-                            className={`h-2 rounded-full transition-all duration-300 ${strength > 0 ? strengthColors[strength - 1] : 'bg-gray-200'}`}
+                            className={`h-2 rounded-full transition-all duration-300 ${strength > 0 ? strengthColors[strength - 1] : "bg-gray-200"}`}
                             style={{ width: `${(strength / 4) * 100}%` }}
                           />
                         </div>
@@ -221,20 +233,44 @@ export default function RegisterPage() {
                         </span>
                       </div>
                       <div className="grid grid-cols-2 gap-1 text-xs">
-                        <div className={`flex items-center ${passwordValidation.length ? 'text-green-600' : 'text-gray-500'}`}>
-                          {passwordValidation.length ? <CheckCircle className="w-3 h-3 mr-1" /> : <XCircle className="w-3 h-3 mr-1" />}
+                        <div
+                          className={`flex items-center ${passwordValidation.length ? "text-green-600" : "text-gray-500"}`}
+                        >
+                          {passwordValidation.length ? (
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                          ) : (
+                            <XCircle className="w-3 h-3 mr-1" />
+                          )}
                           <span>8文字以上</span>
                         </div>
-                        <div className={`flex items-center ${passwordValidation.uppercase ? 'text-green-600' : 'text-gray-500'}`}>
-                          {passwordValidation.uppercase ? <CheckCircle className="w-3 h-3 mr-1" /> : <XCircle className="w-3 h-3 mr-1" />}
+                        <div
+                          className={`flex items-center ${passwordValidation.uppercase ? "text-green-600" : "text-gray-500"}`}
+                        >
+                          {passwordValidation.uppercase ? (
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                          ) : (
+                            <XCircle className="w-3 h-3 mr-1" />
+                          )}
                           <span>大文字</span>
                         </div>
-                        <div className={`flex items-center ${passwordValidation.lowercase ? 'text-green-600' : 'text-gray-500'}`}>
-                          {passwordValidation.lowercase ? <CheckCircle className="w-3 h-3 mr-1" /> : <XCircle className="w-3 h-3 mr-1" />}
+                        <div
+                          className={`flex items-center ${passwordValidation.lowercase ? "text-green-600" : "text-gray-500"}`}
+                        >
+                          {passwordValidation.lowercase ? (
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                          ) : (
+                            <XCircle className="w-3 h-3 mr-1" />
+                          )}
                           <span>小文字</span>
                         </div>
-                        <div className={`flex items-center ${passwordValidation.number ? 'text-green-600' : 'text-gray-500'}`}>
-                          {passwordValidation.number ? <CheckCircle className="w-3 h-3 mr-1" /> : <XCircle className="w-3 h-3 mr-1" />}
+                        <div
+                          className={`flex items-center ${passwordValidation.number ? "text-green-600" : "text-gray-500"}`}
+                        >
+                          {passwordValidation.number ? (
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                          ) : (
+                            <XCircle className="w-3 h-3 mr-1" />
+                          )}
                           <span>数字</span>
                         </div>
                       </div>
@@ -249,7 +285,9 @@ export default function RegisterPage() {
                       id="confirmPassword"
                       type={showConfirmPassword ? "text" : "password"}
                       value={formData.confirmPassword}
-                      onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("confirmPassword", e.target.value)
+                      }
                       placeholder="パスワードを再入力"
                       required
                       disabled={isLoading}
@@ -257,11 +295,17 @@ export default function RegisterPage() {
                     />
                     <button
                       type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                       disabled={isLoading}
                     >
-                      {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      {showConfirmPassword ? (
+                        <EyeOff size={20} />
+                      ) : (
+                        <Eye size={20} />
+                      )}
                     </button>
                   </div>
                   {formData.confirmPassword && (
@@ -269,12 +313,16 @@ export default function RegisterPage() {
                       {isPasswordMatch ? (
                         <>
                           <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                          <span className="text-green-700 dark:text-green-400">パスワードが一致しています</span>
+                          <span className="text-green-700 dark:text-green-400">
+                            パスワードが一致しています
+                          </span>
                         </>
                       ) : (
                         <>
                           <XCircle className="w-4 h-4 text-red-500 mr-2" />
-                          <span className="text-red-700 dark:text-red-400">パスワードが一致しません</span>
+                          <span className="text-red-700 dark:text-red-400">
+                            パスワードが一致しません
+                          </span>
                         </>
                       )}
                     </div>
@@ -284,7 +332,13 @@ export default function RegisterPage() {
                 <Button
                   type="submit"
                   className="w-full transition-transform duration-200 active:scale-95"
-                  disabled={isLoading || !formData.name || !formData.email || !isPasswordValid || !isPasswordMatch}
+                  disabled={
+                    isLoading ||
+                    !formData.name ||
+                    !formData.email ||
+                    !isPasswordValid ||
+                    !isPasswordMatch
+                  }
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center">
@@ -299,7 +353,10 @@ export default function RegisterPage() {
               <div className="text-center mt-4">
                 <p className="text-sm text-muted-foreground">
                   既にアカウントをお持ちの方は{" "}
-                  <Link href="/auth/signin" className="text-blue-600 hover:text-blue-500 underline font-medium">
+                  <Link
+                    href="/auth/signin"
+                    className="text-blue-600 hover:text-blue-500 underline font-medium"
+                  >
                     こちらからログイン
                   </Link>
                 </p>

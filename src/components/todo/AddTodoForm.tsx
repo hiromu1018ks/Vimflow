@@ -35,8 +35,8 @@ interface AddTodoFormProps {
     addTodo: () => Promise<void>;
     // タスク追加処理中かどうかを示すフラグ
     isLoading: boolean;
-    error:string | null;
-    clearError:()=>void;
+    error: string | null;
+    clearError: () => void;
   };
 }
 
@@ -64,7 +64,7 @@ export default function AddTodoForm({ vimHooks, todoHooks }: AddTodoFormProps) {
       if (e.nativeEvent.isComposing) {
         return; // 何もせずに関数を終了
       }
-      
+
       // タスクを追加する処理を実行（非同期なのでawaitを使用）
       await todoHooks.addTodo();
       // タスク追加後、Vimモードを通常モードに戻す
@@ -138,7 +138,7 @@ export default function AddTodoForm({ vimHooks, todoHooks }: AddTodoFormProps) {
                   {todoHooks.newTodo.task.length}/200
                 </div>
               </div>
-              
+
               <Button
                 onClick={todoHooks.addTodo}
                 disabled={vimHooks.mode === "normal" || todoHooks.isLoading}

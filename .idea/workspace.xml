@@ -4,10 +4,51 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc3798d4-dd3a-4237-9912-e1bd2fbc07d9" name="変更" comment="依存関係を更新: 新たに `husky` と `lint-staged` を追加してプロジェクトのコード整合性を強化し、その他の開発依存関係を更新。">
-      <change afterPath="$PROJECT_DIR$/lint-staged.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    <list default="true" id="bc3798d4-dd3a-4237-9912-e1bd2fbc07d9" name="変更" comment="コードスタイルを統一: セミコロンの追加、インデント修正、コメントのフォーマット改善により一貫性を向上させ、全体的な可読性を強化。">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components.json" beforeDir="false" afterPath="$PROJECT_DIR$/components.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/middleware.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/auth/[...nextauth]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/auth/[...nextauth]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/auth/register/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/auth/register/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/tasks/[id]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/tasks/[id]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/tasks/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/tasks/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/register/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/signin/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/signin/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/error.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/error.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/not-found.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/not-found.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/SignInButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/SignInButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/SignOutButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/SignOutButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/UserDropdown.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/UserDropdown.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/navigation/NavBar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/todo/AddTodoForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/todo/AddTodoForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/todo/TodoApp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/todo/TodoApp.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/todo/TodoHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/todo/TodoHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/todo/TodoItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/todo/TodoItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/todo/TodoList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/todo/TodoList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/FlowBackground.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/FlowBackground.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/ThemeToggle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/ThemeToggle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/card.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/checkbox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/checkbox.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/input.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/label.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/label.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/ThemeContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/ThemeContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useMousePosition.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useMousePosition.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useTaskEdit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useTaskEdit.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useTodos.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useTodos.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useVimMode.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useVimMode.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/prisma.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/prisma.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/security.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/security.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/type.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,29 +78,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHELLCHECK.PATH": "/Users/hiromu/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck",
-    "git-widget-placeholder": "main",
-    "js.debugger.nextJs.config.created.client": "true",
-    "js.debugger.nextJs.config.created.server": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/Users/hiromu/Develop/Vimflow",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.Next.js: サーバーサイド.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Users/hiromu/Develop/Vimflow/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/hiromu/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
+    &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/hiromu/Develop/Vimflow&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.Next.js: サーバーサイド.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/hiromu/Develop/Vimflow/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/docs" />
@@ -104,7 +145,7 @@
       <workItem from="1751636026596" duration="5000" />
       <workItem from="1751776889551" duration="6330000" />
       <workItem from="1751793202288" duration="377000" />
-      <workItem from="1751793592689" duration="907000" />
+      <workItem from="1751793592689" duration="6963000" />
     </task>
     <task id="LOCAL-00001" summary="アプリ名を変更: プロジェクト名を &quot;basic-todo-app&quot; から &quot;Vimflow&quot; に更新。">
       <option name="closed" value="true" />
@@ -171,6 +212,11 @@
     <MESSAGE value="パッケージ更新: プロジェクト名を「Vimflow」に変更し、開発ツールとして Husky と lint-staged を追加。" />
     <MESSAGE value="開発環境を強化: Huskyとlint-stagedを追加し、コミット前にコードの整合性を自動チェック可能に。" />
     <MESSAGE value="依存関係を更新: 新たに `husky` と `lint-staged` を追加してプロジェクトのコード整合性を強化し、その他の開発依存関係を更新。" />
-    <option name="LAST_COMMIT_MESSAGE" value="依存関係を更新: 新たに `husky` と `lint-staged` を追加してプロジェクトのコード整合性を強化し、その他の開発依存関係を更新。" />
+    <MESSAGE value="パッケージを更新: アプリ名を &quot;basic-todo-app&quot; から &quot;Vimflow&quot; に変更し、HuskyおよびLint-Stagedを導入してコード品質管理を強化。さらに、関連する依存関係を追加。" />
+    <MESSAGE value="`Add husky, lint-staged, and prettier for consistent code formatting and pre-commit hooks setup`" />
+    <MESSAGE value="依存関係を更新: Husky、Prettier、Lint-Stagedなどの開発ツールを追加し、パフォーマンスと開発環境を改善。" />
+    <MESSAGE value="Prettierのフォーマットルールを全面適用: ファイル全体のコーディングスタイルを統一し、セミコロンやスペースの一貫性を確保。" />
+    <MESSAGE value="コードスタイルを統一: セミコロンの追加、インデント修正、コメントのフォーマット改善により一貫性を向上させ、全体的な可読性を強化。" />
+    <option name="LAST_COMMIT_MESSAGE" value="コードスタイルを統一: セミコロンの追加、インデント修正、コメントのフォーマット改善により一貫性を向上させ、全体的な可読性を強化。" />
   </component>
 </project>

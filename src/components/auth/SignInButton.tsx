@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
@@ -28,22 +28,22 @@ export default function SignInButton() {
   // ========== 状態管理 ==========
 
   /** メールアドレスログインフォームの表示状態 */
-  const [ isCredentials, setIsCredentials ] = useState(false);
+  const [isCredentials, setIsCredentials] = useState(false);
 
   /** フォーム入力データ */
-  const [ formData, setFormData ] = useState({
-    email : '',
-    password : ''
-  })
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
   /** ローディング状態（API通信中など） */
-  const [ isLoading, setIsLoading ] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   /** パスワード表示/非表示の切り替え */
-  const [ showPassword, setShowPassword ] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   /** エラーメッセージ */
-  const [ error, setError ] = useState("");
+  const [error, setError] = useState("");
 
   // ========== イベントハンドラー ==========
 
@@ -57,7 +57,7 @@ export default function SignInButton() {
    *
    * @param e - フォーム送信イベント
    */
-  const handleCredentialsSignIn = async (e : React.FormEvent) => {
+  const handleCredentialsSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
@@ -68,34 +68,34 @@ export default function SignInButton() {
       // NextAuth.jsのcredentials認証を実行
       // redirect: falseにより、認証後の自動リダイレクトを無効化
       const result = await signIn("credentials", {
-        email : formData.email,
-        password : formData.password,
-        redirect : false,
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
       });
 
       console.log("ログイン結果:", result);
 
       // 認証結果の判定
-      if ( result?.error ) {
+      if (result?.error) {
         console.log("ログインエラー:", result.error);
-        setError('メールアドレスまたはパスワードが正しくありません');
-      } else if ( result?.ok ) {
+        setError("メールアドレスまたはパスワードが正しくありません");
+      } else if (result?.ok) {
         console.log("ログイン成功、リダイレクト中...");
         // 認証成功時はホームページにリダイレクト
-        window.location.href = '/';
+        window.location.href = "/";
       } else {
         // 予期しないエラーの場合
-        setError('ログインに失敗しました');
+        setError("ログインに失敗しました");
       }
-    } catch ( error ) {
+    } catch (error) {
       // ネットワークエラーやその他の例外
       console.error("ログイン処理エラー:", error);
-      setError('ネットワークエラーが発生しました');
+      setError("ネットワークエラーが発生しました");
     } finally {
       // 成功・失敗に関わらずローディング状態を解除
       setIsLoading(false);
     }
-  }
+  };
 
   /**
    * フォーム入力値の更新処理
@@ -107,14 +107,14 @@ export default function SignInButton() {
    * @param field - 更新対象のフィールド名 ('email' | 'password')
    * @param value - 新しい値
    */
-  const handleInputChange = (field : string, value : string) => {
-    setFormData(prev => ( {
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({
       ...prev,
-      [field] : value
-    } ));
+      [field]: value,
+    }));
     // ユーザーが入力を開始したらエラーメッセージをクリア
-    if ( error ) setError("")
-  }
+    if (error) setError("");
+  };
 
   // ========== レンダリング ==========
 
@@ -122,78 +122,78 @@ export default function SignInButton() {
    * メールアドレスログインフォーム
    * isCredentials が true の場合に表示される
    */
-  if ( isCredentials ) {
+  if (isCredentials) {
     return (
       <div className="space-y-2">
-        <form onSubmit={ handleCredentialsSignIn } className="space-y-4">
-
-          {/* エラーメッセージ表示エリア */ }
-          { error && (
+        <form onSubmit={handleCredentialsSignIn} className="space-y-4">
+          {/* エラーメッセージ表示エリア */}
+          {error && (
             <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
-              { error }
+              {error}
             </div>
-          ) }
+          )}
 
-          {/* メールアドレス入力フィールド */ }
+          {/* メールアドレス入力フィールド */}
           <div className="space-y-2">
             <Label htmlFor="email">メールアドレス</Label>
             <Input
               id="email"
               type="email"
-              value={ formData.email }
-              onChange={ (e) => handleInputChange('email', e.target.value) }
+              value={formData.email}
+              onChange={(e) => handleInputChange("email", e.target.value)}
               placeholder="your@email.com"
               required
-              disabled={ isLoading }
+              disabled={isLoading}
             />
           </div>
 
-          {/* パスワード入力フィールド（表示/非表示切り替え機能付き） */ }
+          {/* パスワード入力フィールド（表示/非表示切り替え機能付き） */}
           <div className="space-y-2">
             <Label htmlFor="password">パスワード</Label>
             <div className="relative">
               <Input
                 id="password"
-                type={ showPassword ? 'text' : 'password' }
-                value={ formData.password }
-                onChange={ (e) => handleInputChange('password', e.target.value) }
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={(e) => handleInputChange("password", e.target.value)}
                 placeholder="パスワードを入力"
                 required
-                disabled={ isLoading }
+                disabled={isLoading}
               />
-              {/* パスワード表示/非表示切り替えボタン */ }
+              {/* パスワード表示/非表示切り替えボタン */}
               <button
                 type="button"
-                onClick={ () => setShowPassword(!showPassword) }
+                onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                disabled={ isLoading }
-                aria-label={ showPassword ? "パスワードを非表示" : "パスワードを表示" }
+                disabled={isLoading}
+                aria-label={
+                  showPassword ? "パスワードを非表示" : "パスワードを表示"
+                }
               >
-                { showPassword ? <EyeOff size={ 20 }/> : <Eye size={ 20 }/> }
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
           </div>
 
-          {/* ログイン実行ボタン */ }
+          {/* ログイン実行ボタン */}
           <Button
             type="submit"
             className="w-full transition-transform duration-200 active:scale-95"
-            disabled={ isLoading || !formData.email || !formData.password }
+            disabled={isLoading || !formData.email || !formData.password}
           >
-            { isLoading ? (
+            {isLoading ? (
               // ローディング中の表示（スピナー付き）
               <div className="flex items-center justify-center">
-                <div
-                  className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                 ログイン中...
               </div>
             ) : (
               "ログイン"
-            ) }
+            )}
           </Button>
         </form>
 
-        {/* 新規登録ページへのリンク */ }
+        {/* 新規登録ページへのリンク */}
         <div className="text-center">
           <Link
             href="/auth/register"
@@ -203,21 +203,21 @@ export default function SignInButton() {
           </Link>
         </div>
 
-        {/* OAuth認証選択画面に戻るボタン */ }
+        {/* OAuth認証選択画面に戻るボタン */}
         <Button
-          onClick={ () => {
+          onClick={() => {
             setIsCredentials(false);
             setError("");
-            setFormData({ email : "", password : "" });
-          } }
+            setFormData({ email: "", password: "" });
+          }}
           variant="outline"
           className="w-full transition-transform duration-200 active:scale-95"
-          disabled={ isLoading }
+          disabled={isLoading}
         >
           他の方法でログイン
         </Button>
       </div>
-    )
+    );
   }
 
   /**
@@ -228,33 +228,34 @@ export default function SignInButton() {
    */
   return (
     <div className="space-y-4">
-
-      {/* メールアドレスログイン選択ボタン */ }
+      {/* メールアドレスログイン選択ボタン */}
       <Button
-        onClick={ () => setIsCredentials(true) }
+        onClick={() => setIsCredentials(true)}
         className="w-full transition-transform duration-200 active:scale-95"
         variant="default"
       >
-        <Mail/> メールアドレスでログイン
+        <Mail /> メールアドレスでログイン
       </Button>
 
-      {/* 区切り線（視覚的な分離） */ }
+      {/* 区切り線（視覚的な分離） */}
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t"/>
+          <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">または</span>
+          <span className="bg-background px-2 text-muted-foreground">
+            または
+          </span>
         </div>
       </div>
 
-      {/* Google OAuth認証ボタン */ }
+      {/* Google OAuth認証ボタン */}
       <Button
-        onClick={ () => signIn('google', { callbackUrl : '/' }) }
+        onClick={() => signIn("google", { callbackUrl: "/" })}
         className="w-full transition-transform duration-200 active:scale-95"
         variant="outline"
       >
-        {/* Googleアイコン（SVG） */ }
+        {/* Googleアイコン（SVG） */}
         <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
           <path
             fill="currentColor"
@@ -276,24 +277,23 @@ export default function SignInButton() {
         Googleでログイン
       </Button>
 
-      {/* GitHub OAuth認証ボタン */ }
+      {/* GitHub OAuth認証ボタン */}
       <Button
-        onClick={ () => signIn('github', { callbackUrl : '/' }) }
+        onClick={() => signIn("github", { callbackUrl: "/" })}
         className="w-full transition-transform duration-200 active:scale-95"
         variant="outline"
       >
-        {/* GitHubアイコン（SVG） */ }
+        {/* GitHubアイコン（SVG） */}
         <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
         </svg>
         GitHubでログイン
       </Button>
 
-      {/* 新規登録への誘導リンク */ }
+      {/* 新規登録への誘導リンク */}
       <div className="text-center pt-4">
         <p className="text-sm text-gray-600">
-          アカウントをお持ちでない方は{ " " }
+          アカウントをお持ちでない方は{" "}
           <Link
             href="/auth/register"
             className="text-blue-600 hover:text-blue-500 underline font-medium"
@@ -303,5 +303,5 @@ export default function SignInButton() {
         </p>
       </div>
     </div>
-  )
+  );
 }

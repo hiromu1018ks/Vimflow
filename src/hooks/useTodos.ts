@@ -1,4 +1,4 @@
-"use client"
+"use client";
 // 型定義をインポート（別ファイルで定義されたタスクの型）
 import { createTask, getAllTask } from "@/types/type";
 // Reactのフック（状態管理・副作用処理）をインポート
@@ -11,17 +11,17 @@ import { useEffect, useState } from "react";
  * TypeScriptにより型安全性が保証され、開発時に自動補完も効きます。
  */
 export interface UseTodosReturn {
-  todos : getAllTask[]; // タスクの配列
-  newTodo : createTask; // 新規作成中のタスク
-  setNewTodo : (todo : createTask) => void; // 新規タスクの更新関数
-  addTodo : () => Promise<void>; // タスク追加関数（非同期）
-  deleteTodo : (id : string) => Promise<void>; // タスク削除関数（非同期）
-  completeTodo:(id:string)=> Promise<void>; // タスク完了関数（非同期）　
-  getAllTodos : () => Promise<void>; // タスク一覧取得関数（非同期）
-  isLoading : boolean; // ローディング状態
-  error : string | null; // エラーメッセージ（エラーがない場合はnull）
-  clearError : () => void; // エラーをクリアする関数
-  updateTask : (id : string, task : string) => Promise<void>; // タスク更新関数（非同期）
+  todos: getAllTask[]; // タスクの配列
+  newTodo: createTask; // 新規作成中のタスク
+  setNewTodo: (todo: createTask) => void; // 新規タスクの更新関数
+  addTodo: () => Promise<void>; // タスク追加関数（非同期）
+  deleteTodo: (id: string) => Promise<void>; // タスク削除関数（非同期）
+  completeTodo: (id: string) => Promise<void>; // タスク完了関数（非同期）
+  getAllTodos: () => Promise<void>; // タスク一覧取得関数（非同期）
+  isLoading: boolean; // ローディング状態
+  error: string | null; // エラーメッセージ（エラーがない場合はnull）
+  clearError: () => void; // エラーをクリアする関数
+  updateTask: (id: string, task: string) => Promise<void>; // タスク更新関数（非同期）
 }
 
 /**
@@ -37,22 +37,22 @@ export interface UseTodosReturn {
  * 使用例:
  * const { todos, addTodo, deleteTodo, isLoading, error } = useTodos();
  */
-export const useTodos = () : UseTodosReturn => {
+export const useTodos = (): UseTodosReturn => {
   // === 状態の定義 ===
 
   // タスクの配列を管理する状態（初期値は空配列）
-  const [ todos, setTodos ] = useState<getAllTask[]>([]);
+  const [todos, setTodos] = useState<getAllTask[]>([]);
 
   // 新規作成中のタスクを管理する状態
-  const [ newTodo, setNewTodo ] = useState<createTask>({
-    task : "", // 初期値は空文字列
+  const [newTodo, setNewTodo] = useState<createTask>({
+    task: "", // 初期値は空文字列
   });
 
   // ローディング状態を管理（APIリクエスト中はtrue）
-  const [ isLoading, setIsLoading ] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // エラー状態を管理（エラーがない場合はnull）
-  const [ error, setError ] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // === 副作用の定義（コンポーネントマウント時の処理） ===
 
@@ -87,28 +87,28 @@ export const useTodos = () : UseTodosReturn => {
 
     try {
       // サーバーへのHTTPリクエスト（GET /api/tasks）
-      const response = await fetch(`${ URL }/tasks`, {
-        method : "GET", // 取得操作なのでGETメソッド
+      const response = await fetch(`${URL}/tasks`, {
+        method: "GET", // 取得操作なのでGETメソッド
       });
 
       // レスポンスのステータスコードをチェック
-      if ( !response.ok ) {
-        throw new Error(`HTTP error! status: ${ response.status }`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       // JSONデータに変換
       const result = await response.json();
 
       // サーバーから返された配列を、フロントエンド用のデータ形式に変換
-      const tasks = result.data.map((task : getAllTask) => ( {
+      const tasks = result.data.map((task: getAllTask) => ({
         ...task, // 既存のプロパティをそのままコピー
         // 文字列で返される日時をDateオブジェクトに変換
-        createdAt : task.createdAt ? new Date(task.createdAt) : undefined,
-      } ));
+        createdAt: task.createdAt ? new Date(task.createdAt) : undefined,
+      }));
 
       // 状態を更新（これによりUIが再レンダリングされる）
       setTodos(tasks);
-    } catch ( error ) {
+    } catch (error) {
       // エラーハンドリング：エラーオブジェクトから適切なメッセージを抽出
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
@@ -134,37 +134,37 @@ export const useTodos = () : UseTodosReturn => {
    */
   const addTodo = async () => {
     // バリデーション：空文字や空白のみの場合は処理しない
-    if ( !newTodo.task.trim() ) return;
+    if (!newTodo.task.trim()) return;
 
     setIsLoading(true); // ローディング開始
     setError(null); // 既存のエラーをクリア
 
     try {
       // サーバーへのHTTPリクエスト（POST /api/tasks）
-      const response = await fetch(`${ URL }/tasks`, {
-        method : "POST", // 新規作成操作なのでPOSTメソッド
-        headers : {
-          "Content-Type" : "application/json", // JSONデータを送信することを明示
+      const response = await fetch(`${URL}/tasks`, {
+        method: "POST", // 新規作成操作なのでPOSTメソッド
+        headers: {
+          "Content-Type": "application/json", // JSONデータを送信することを明示
         },
-        body : JSON.stringify({
-          task : newTodo.task.trim(), // 前後の空白を削除してからサーバーに送信
+        body: JSON.stringify({
+          task: newTodo.task.trim(), // 前後の空白を削除してからサーバーに送信
         }),
       });
 
       // レスポンスのステータスコードをチェック
-      if ( !response.ok ) {
-        throw new Error(`HTTP error! status: ${ response.status }`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       // 追加が成功したら、入力フィールドをクリア
       setNewTodo({
-        task : "", // 空文字列で初期化
+        task: "", // 空文字列で初期化
       });
 
       // タスクを追加後、最新のタスク一覧を再取得
       // これにより、サーバーで生成されたIDや作成日時も含めて表示される
       await getAllTodos();
-    } catch ( error ) {
+    } catch (error) {
       // エラーハンドリング
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
@@ -176,38 +176,39 @@ export const useTodos = () : UseTodosReturn => {
     }
   };
 
-  const completeTodo = async (id:string) => {
+  const completeTodo = async (id: string) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const currentTask = todos.find(task => task.id === id);
-      if ( !currentTask ) {
+      const currentTask = todos.find((task) => task.id === id);
+      if (!currentTask) {
         throw new Error("Task not found");
       }
 
       const response = await fetch(`${URL}/tasks/${id}`, {
-        method:"PUT",
-        headers:{
-          "Content-Type":"application/json",
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body:JSON.stringify({
-          completed:!currentTask.completed
+        body: JSON.stringify({
+          completed: !currentTask.completed,
         }),
-        });
+      });
 
-      if ( !response.ok ) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       await getAllTodos();
-    } catch ( error ) {
-     const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
       setError(errorMessage);
       console.error("Failed to toggle task completion:", error);
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   /**
    * 指定されたIDのタスクを削除する関数
@@ -220,25 +221,25 @@ export const useTodos = () : UseTodosReturn => {
    * @param id 削除するタスクのID
    * @returns Promise<void> 非同期処理のため、Promiseを返す
    */
-  const deleteTodo = async (id : string) => {
+  const deleteTodo = async (id: string) => {
     setIsLoading(true); // ローディング開始
     setError(null); // 既存のエラーをクリア
 
     try {
       // サーバーへのHTTPリクエスト（DELETE /api/tasks/{id}）
-      const response = await fetch(`${ URL }/tasks/${ id }`, {
-        method : "DELETE", // 削除操作なのでDELETEメソッド
+      const response = await fetch(`${URL}/tasks/${id}`, {
+        method: "DELETE", // 削除操作なのでDELETEメソッド
       });
 
       // レスポンスのステータスコードをチェック
-      if ( !response.ok ) {
-        throw new Error(`HTTP error! status: ${ response.status }`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       // 削除が成功したら、最新のタスク一覧を再取得
       // これにより、削除されたタスクがUIからも消える
       await getAllTodos();
-    } catch ( err ) {
+    } catch (err) {
       // エラーハンドリング
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
       setError(errorMessage);
@@ -259,27 +260,27 @@ export const useTodos = () : UseTodosReturn => {
     setError(null); // エラー状態をnullにリセット
   };
 
-  const updateTask = async (id : string, task : string) => {
-    if ( !task.trim() ) return;
+  const updateTask = async (id: string, task: string) => {
+    if (!task.trim()) return;
 
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`${ URL }/tasks/${ id }`, {
-        method : "PUT",
-        headers : {
-          "Content-Type" : "application/json",
+      const response = await fetch(`${URL}/tasks/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body : JSON.stringify({ task : task.trim() }),
+        body: JSON.stringify({ task: task.trim() }),
       });
 
-      if ( !response.ok ) {
-        throw new Error(`HTTP error! status: ${ response.status }`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       await getAllTodos();
-    } catch ( error ) {
+    } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
       setError(errorMessage);

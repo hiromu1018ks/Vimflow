@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
 
 // Prismaクライアントのインスタンスを作成
 // これによりデータベースとの接続が可能になる
@@ -16,100 +16,100 @@ const prisma = new PrismaClient();
 export const { handlers, signIn, signOut, auth } = NextAuth({
   // データベースアダプターの設定
   // PrismaAdapterを使用してユーザー情報、セッション、アカウント情報をデータベースに保存
-  adapter : PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma),
 
   // 認証プロバイダーの設定配列
-  providers : [
+  providers: [
     // Google認証プロバイダーの設定
     Google({
       // Googleクライアント ID（環境変数から取得、必須項目）
-      clientId : process.env.AUTH_GOOGLE_ID!,
+      clientId: process.env.AUTH_GOOGLE_ID!,
       // Googleクライアントシークレット（環境変数から取得、オプション項目）
-      clientSecret : process.env.AUTH_GOOGLE_SECRET,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
     GitHub({
-      clientId : process.env.AUTH_GITHUB_ID!,
-      clientSecret : process.env.AUTH_GITHUB_SECRET
+      clientId: process.env.AUTH_GITHUB_ID!,
+      clientSecret: process.env.AUTH_GITHUB_SECRET,
     }),
     Credentials({
-      name : "credentials",
-      credentials : {
-        email : {
-          label : "メールアドレス",
-          type : "email",
-          placeholder : "your@email.com"
+      name: "credentials",
+      credentials: {
+        email: {
+          label: "メールアドレス",
+          type: "email",
+          placeholder: "your@email.com",
         },
-        password : {
-          label : "パスワード",
-          type : "password",
-          placeholder : "パスワードを入力"
-        }
+        password: {
+          label: "パスワード",
+          type: "password",
+          placeholder: "パスワードを入力",
+        },
       },
       async authorize(credentials) {
-        if ( !credentials?.email || !credentials?.password ) {
+        if (!credentials?.email || !credentials?.password) {
           return null;
         }
 
-        const email = credentials.email as string
-        const password = credentials.password as string
+        const email = credentials.email as string;
+        const password = credentials.password as string;
 
         try {
           const user = await prisma.user.findUnique({
-            where : {
-              email : email
-            }
+            where: {
+              email: email,
+            },
           });
 
-          if ( !user || !user.password ) {
+          if (!user || !user.password) {
             return null;
           }
 
           const isPasswordValid = await bcrypt.compare(
             password,
-            user.password!
+            user.password!,
           );
 
-          if ( !isPasswordValid ) {
+          if (!isPasswordValid) {
             return null;
           }
 
           return user;
-        } catch ( error ) {
+        } catch (error) {
           console.error("認証処理中にエラー:", error);
           return null;
         }
-      }
-    })
+      },
+    }),
   ],
 
   // カスタムページの設定
-  pages : {
+  pages: {
     // サインインページのパスを指定
     // デフォルトのNextAuthサインインページの代わりにカスタムページを使用
-    signIn : "/auth/signin",
-    signOut : "/auth/signout"
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
   },
 
-  session : {
-    strategy : "jwt",
-    maxAge : 30 * 24 * 60 * 60
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
   },
 
   // コールバック関数の設定
   // 認証フローの各段階で実行される処理をカスタマイズ
-  callbacks : {
-    authorized({ auth, request : { nextUrl } }) {
+  callbacks: {
+    authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isOnAuthPage = nextUrl.pathname.startsWith('/auth/');
+      const isOnAuthPage = nextUrl.pathname.startsWith("/auth/");
 
       // ログイン済みユーザーが認証ページにアクセスした場合はホームページにリダイレクト
-      if ( isLoggedIn && isOnAuthPage ) {
-        return Response.redirect(new URL('/', nextUrl));
+      if (isLoggedIn && isOnAuthPage) {
+        return Response.redirect(new URL("/", nextUrl));
       }
 
       // 未ログインユーザーがルートパス以外にアクセスした場合はログインページにリダイレクト
-      if ( !isLoggedIn && !isOnAuthPage && nextUrl.pathname !== '/' ) {
-        return Response.redirect(new URL('/auth/signin', nextUrl));
+      if (!isLoggedIn && !isOnAuthPage && nextUrl.pathname !== "/") {
+        return Response.redirect(new URL("/auth/signin", nextUrl));
       }
 
       return true;
@@ -138,7 +138,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     async signIn({}) {
       return true;
-    }
+    },
   },
-  debug : process.env.NODE_ENV === 'development'
-})
+  debug: process.env.NODE_ENV === "development",
+});

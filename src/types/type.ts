@@ -11,6 +11,6 @@ export interface getAllTask {
 }
 
 export interface updateTask {
-  task?:string;
-  completed?:boolean;
+  task?: string;
+  completed?: boolean;
 }
