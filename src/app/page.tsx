@@ -9,5 +9,5 @@ export default async function Home() {
     redirect("/auth/signin");
   }
 
-  return <TodoApp session={session} />;
+  return <TodoApp />;
 }
