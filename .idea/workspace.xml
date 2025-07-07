@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc3798d4-dd3a-4237-9912-e1bd2fbc07d9" name="変更" comment="依存関係を追加: Playwrightとその関連ライブラリを導入し、テスト環境を強化。">
-      <change afterPath="$PROJECT_DIR$/e2e/homepage.spec.ts" afterDir="false" />
+    <list default="true" id="bc3798d4-dd3a-4237-9912-e1bd2fbc07d9" name="変更" comment="E2Eテストを追加: Playwrightを用いてトップページの読み込みとメインコンテンツ表示を確認するテストを実装。">
+      <change afterPath="$PROJECT_DIR$/.idea/jsLinters/eslint.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/e2e/example.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/playwright.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests-examples/demo-todo-app.spec.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eslint.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/eslint.config.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,32 +45,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHELLCHECK.PATH": "/Users/hiromu/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck",
-    "git-widget-placeholder": "main",
-    "js.debugger.nextJs.config.created.client": "true",
-    "js.debugger.nextJs.config.created.server": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/Users/hiromu/Develop/Vimflow",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.Next.js: サーバーサイド.executor": "Run",
-    "prettierjs.PrettierConfiguration.Package": "/Users/hiromu/Develop/Vimflow/node_modules/prettier",
-    "settings.editor.selected.configurable": "settings.javascript.prettier",
-    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/hiromu/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
+    &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/hiromu/Develop/Vimflow&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.Next.js: サーバーサイド.executor&quot;: &quot;Run&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/hiromu/Develop/Vimflow/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/hiromu/Develop/Vimflow/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/docs" />
@@ -112,7 +117,7 @@
       <workItem from="1751793202288" duration="377000" />
       <workItem from="1751793592689" duration="11778000" />
       <workItem from="1751859973441" duration="16000" />
-      <workItem from="1751888877820" duration="1156000" />
+      <workItem from="1751888877820" duration="3097000" />
     </task>
     <task id="LOCAL-00001" summary="アプリ名を変更: プロジェクト名を &quot;basic-todo-app&quot; から &quot;Vimflow&quot; に更新。">
       <option name="closed" value="true" />
@@ -194,7 +199,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751889207855</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="E2Eテストを追加: Playwrightを用いてトップページの読み込みとメインコンテンツ表示を確認するテストを実装。">
+      <option name="closed" value="true" />
+      <created>1751890293548</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1751890293548</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -231,6 +244,7 @@
     <MESSAGE value="依存関係を追加: テスト関連ライブラリ (Vitest, Testing Library など) と Babel 関連ツールを導入し、開発環境を拡張。" />
     <MESSAGE value="テスト環境を構築: Vitest設定ファイル、初期セットアップスクリプト、サンプルテストを追加し、`tsconfig.json`を更新。" />
     <MESSAGE value="依存関係を追加: Playwrightとその関連ライブラリを導入し、テスト環境を強化。" />
-    <option name="LAST_COMMIT_MESSAGE" value="依存関係を追加: Playwrightとその関連ライブラリを導入し、テスト環境を強化。" />
+    <MESSAGE value="E2Eテストを追加: Playwrightを用いてトップページの読み込みとメインコンテンツ表示を確認するテストを実装。" />
+    <option name="LAST_COMMIT_MESSAGE" value="E2Eテストを追加: Playwrightを用いてトップページの読み込みとメインコンテンツ表示を確認するテストを実装。" />
   </component>
 </project>
