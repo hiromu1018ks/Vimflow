@@ -19,6 +19,12 @@ export const metadata: Metadata = {
   title: "Vimflow - Elegant Task Management",
   description:
     "Elegant task management with vim-style navigation. Organize your thoughts with keyboard efficiency.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

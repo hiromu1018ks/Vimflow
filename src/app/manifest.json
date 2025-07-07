@@ -1,0 +1,10 @@
+{
+  "name": "Vimflow - Elegant Task Management",
+  "short_name": "Vimflow",
+  "description": "Elegant task management with vim-style navigation",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#fff",
+  "icons": [{ "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" }]
+}

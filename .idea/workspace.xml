@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc3798d4-dd3a-4237-9912-e1bd2fbc07d9" name="変更" comment="E2Eテストを追加: Playwrightを用いてトップページの読み込みとメインコンテンツ表示を確認するテストを実装。">
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/android-chrome-512x512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/icon-192x192.png.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/icon-512x512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/icon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/favicon.ico" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +116,7 @@
       <workItem from="1751793202288" duration="377000" />
       <workItem from="1751793592689" duration="11778000" />
       <workItem from="1751859973441" duration="16000" />
-      <workItem from="1751888877820" duration="5594000" />
+      <workItem from="1751888877820" duration="7648000" />
     </task>
     <task id="LOCAL-00001" summary="アプリ名を変更: プロジェクト名を &quot;basic-todo-app&quot; から &quot;Vimflow&quot; に更新。">
       <option name="closed" value="true" />
