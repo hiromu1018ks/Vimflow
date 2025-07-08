@@ -18,7 +18,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   // PrismaAdapterを使用してユーザー情報、セッション、アカウント情報をデータベースに保存
   adapter: PrismaAdapter(prisma),
 
-  trustHost: true,
+  // trustHost: true,
 
   // 認証プロバイダーの設定配列
   providers: [
