@@ -44,7 +44,7 @@ export default function UserDropdown() {
             className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <User className="h-4 w-4 mr-3" />
-            プロフィール
+            profile[未実装]
           </button>
 
           <button
@@ -54,7 +54,7 @@ export default function UserDropdown() {
             className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <Settings className="h-4 w-4 mr-3" />
-            設定
+            settings[未実装]
           </button>
 
           <hr className="border-gray-200 dark:border-gray-600" />
