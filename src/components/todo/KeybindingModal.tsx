@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
 import { HelpCircle } from "lucide-react";
 import { KeybindingHelp } from "@/components/todo/KeybindingHelp";
 
