@@ -11,6 +11,7 @@ import TodoList from "@/components/todo/TodoList";
 import Footer from "@/components/todo/Footer";
 import UserDropdown from "@/components/auth/UserDropdown";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import { KeybindingModal } from "@/components/todo/KeybindingModal";
 export default function TodoApp() {
   const { isDark } = useTheme();
   const todoHooks = useTodos();
@@ -80,6 +81,11 @@ export default function TodoApp() {
           isLoading={todoHooks.isLoading}
         />
         <Footer />
+      </div>
+
+      {/* キーバインドヘルプアイコン（左下に配置） */}
+      <div className="fixed bottom-6 left-6 z-50">
+        <KeybindingModal />
       </div>
     </div>
   );
