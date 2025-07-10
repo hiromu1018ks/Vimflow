@@ -103,7 +103,7 @@ export default function TodoList({
                 </kbd>{" "}
                 delete •{" "}
                 <kbd className="px-1 bg-slate-200 dark:bg-slate-700 rounded text-xs">
-                  Enter
+                  e
                 </kbd>{" "}
                 edit
               </p>

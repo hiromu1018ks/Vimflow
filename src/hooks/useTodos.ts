@@ -139,7 +139,19 @@ export const useTodos = (): UseTodosReturn => {
     setIsLoading(true); // ローディング開始
     setError(null); // 既存のエラーをクリア
 
+    const tempId = `temp_${Date.now()}_${Math.random()}`;
+    const optimisticTodo = {
+      id: tempId,
+      task: newTodo.task.trim(),
+      completed: false,
+      userId: "", // 仮の値
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
     try {
+      setTodos((currentTodos) => [optimisticTodo, ...currentTodos]);
+      setNewTodo({ task: "" });
       // サーバーへのHTTPリクエスト（POST /api/tasks）
       const response = await fetch(`${URL}/tasks`, {
         method: "POST", // 新規作成操作なのでPOSTメソッド
@@ -156,16 +168,25 @@ export const useTodos = (): UseTodosReturn => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // 追加が成功したら、入力フィールドをクリア
-      setNewTodo({
-        task: "", // 空文字列で初期化
-      });
-
-      // タスクを追加後、最新のタスク一覧を再取得
-      // これにより、サーバーで生成されたIDや作成日時も含めて表示される
-      await getAllTodos();
+      const realTodo = await response.json();
+      setTodos((currentTodos) =>
+        currentTodos.map((todo) =>
+          todo.id === tempId
+            ? {
+                ...realTodo.data,
+                createdAt: new Date(realTodo.data.createdAt),
+                updatedAt: new Date(realTodo.data.updatedAt),
+              }
+            : todo,
+        ),
+      );
     } catch (error) {
       // エラーハンドリング
+      // 失敗時：仮のタスクを削除し、入力内容を復元
+      setTodos((currentTodos) =>
+        currentTodos.filter((todo) => todo.id !== tempId),
+      );
+      setNewTodo({ task: optimisticTodo.task }); // 入力内容を復元
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
       setError(errorMessage);
@@ -179,12 +200,19 @@ export const useTodos = (): UseTodosReturn => {
   const completeTodo = async (id: string) => {
     setIsLoading(true);
     setError(null);
+    const originalTodos = [...todos];
 
     try {
       const currentTask = todos.find((task) => task.id === id);
       if (!currentTask) {
         throw new Error("Task not found");
       }
+
+      setTodos((currentTodos) =>
+        currentTodos.map((todo) =>
+          todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+        ),
+      );
 
       const response = await fetch(`${URL}/tasks/${id}`, {
         method: "PUT",
@@ -199,8 +227,8 @@ export const useTodos = (): UseTodosReturn => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      await getAllTodos();
     } catch (error) {
+      setTodos(originalTodos);
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
       setError(errorMessage);
@@ -224,8 +252,10 @@ export const useTodos = (): UseTodosReturn => {
   const deleteTodo = async (id: string) => {
     setIsLoading(true); // ローディング開始
     setError(null); // 既存のエラーをクリア
+    const originalTodos = [...todos];
 
     try {
+      setTodos((currentTodos) => currentTodos.filter((todo) => todo.id !== id));
       // サーバーへのHTTPリクエスト（DELETE /api/tasks/{id}）
       const response = await fetch(`${URL}/tasks/${id}`, {
         method: "DELETE", // 削除操作なのでDELETEメソッド
@@ -235,12 +265,9 @@ export const useTodos = (): UseTodosReturn => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      // 削除が成功したら、最新のタスク一覧を再取得
-      // これにより、削除されたタスクがUIからも消える
-      await getAllTodos();
     } catch (err) {
       // エラーハンドリング
+      setTodos(originalTodos);
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
       setError(errorMessage);
       console.error("Failed to delete task:", err);
@@ -265,8 +292,14 @@ export const useTodos = (): UseTodosReturn => {
 
     setIsLoading(true);
     setError(null);
+    const originalTodos = [...todos];
 
     try {
+      setTodos((currentTodos) =>
+        currentTodos.map((todo) =>
+          todo.id === id ? { ...todo, task: task.trim() } : todo,
+        ),
+      );
       const response = await fetch(`${URL}/tasks/${id}`, {
         method: "PUT",
         headers: {
@@ -278,9 +311,8 @@ export const useTodos = (): UseTodosReturn => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      await getAllTodos();
     } catch (error) {
+      setTodos(originalTodos);
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
       setError(errorMessage);
