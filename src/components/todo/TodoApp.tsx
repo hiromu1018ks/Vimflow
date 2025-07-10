@@ -36,8 +36,8 @@ export default function TodoApp() {
    * @param id - 更新するタスクのID
    */
   const handleSaveTask = async (id: string) => {
-    await todoHooks.updateTask(id, editHooks.editingTask);
     editHooks.cancelEditing();
+    await todoHooks.updateTask(id, editHooks.editingTask);
   };
 
   return (
