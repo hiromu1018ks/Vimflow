@@ -14,11 +14,27 @@ import FlowBackground from "@/components/ui/FlowBackground";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import Link from "next/link";
 
+/**
+ * ErrorPageコンポーネントのプロパティの型定義。
+ */
 interface ErrorPageProps {
+  /**
+   * 発生したエラーオブジェクト。
+   * Next.jsによってdigestプロパティが追加されることがあります。
+   */
   error: Error & { digest?: string };
+  /**
+   * エラーから回復を試みるための関数。
+   * この関数を呼び出すと、エラーが発生したコンポーネントが再レンダリングされます。
+   */
   reset: () => void;
 }
 
+/**
+ * アプリケーション全体のエラーをハンドリングし、ユーザーに表示するコンポーネントです。
+ * Next.jsの`error.js`ファイル規約に基づいています。
+ * @param {ErrorPageProps} props - コンポーネントのプロパティ（errorオブジェクトとreset関数）。
+ */
 export default function ErrorPage({ error, reset }: ErrorPageProps) {
   return (
     <div className="relative w-full h-screen">
@@ -29,9 +45,11 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         <ThemeToggle />
       </div>
 
+      {/* エラー表示カード */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <Card className="w-[450px] bg-white/80 dark:bg-black/80 backdrop-blur-sm">
           <CardHeader className="text-center">
+            {/* エラーアイコン */}
             <div className="mx-auto mb-4">
               <AlertTriangle className="h-16 w-16 text-red-500" />
             </div>

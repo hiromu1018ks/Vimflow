@@ -65,10 +65,8 @@ export default function AddTodoForm({ vimHooks, todoHooks }: AddTodoFormProps) {
         return; // 何もせずに関数を終了
       }
 
-      // タスクを追加する処理を実行（非同期なのでawaitを使用）
-      await todoHooks.addTodo();
-      // タスク追加後、Vimモードを通常モードに戻す
       vimHooks.setMode("normal");
+      await todoHooks.addTodo();
     }
     // Escapeキーが押された場合の処理
     else if (e.key === "Escape") {

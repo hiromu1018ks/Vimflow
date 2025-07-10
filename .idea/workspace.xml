@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc3798d4-dd3a-4237-9912-e1bd2fbc07d9" name="変更" comment="E2Eテストを追加: Playwrightを用いてトップページの読み込みとメインコンテンツ表示を確認するテストを実装。">
-      <change afterPath="$PROJECT_DIR$/src/app/android-chrome-512x512.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/icon-192x192.png.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/icon-512x512.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/icon.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/manifest.json" afterDir="false" />
+    <list default="true" id="bc3798d4-dd3a-4237-9912-e1bd2fbc07d9" name="変更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/UserDropdown.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/UserDropdown.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,32 +39,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/hiromu/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
-    &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/hiromu/Develop/Vimflow&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.Next.js: サーバーサイド.executor&quot;: &quot;Run&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/hiromu/Develop/Vimflow/node_modules/prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/hiromu/Develop/Vimflow/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHELLCHECK.PATH": "/Users/hiromu/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck",
+    "git-widget-placeholder": "develop",
+    "js.debugger.nextJs.config.created.client": "true",
+    "js.debugger.nextJs.config.created.server": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/Users/hiromu/Develop/Vimflow",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.Next.js: サーバーサイド.executor": "Run",
+    "prettierjs.PrettierConfiguration.Package": "/Users/hiromu/Develop/Vimflow/node_modules/prettier",
+    "settings.editor.selected.configurable": "ml.llm.AIAssistantPromptsLibrary",
+    "ts.external.directory.path": "/Users/hiromu/Develop/Vimflow/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/docs" />
@@ -116,7 +111,7 @@
       <workItem from="1751793202288" duration="377000" />
       <workItem from="1751793592689" duration="11778000" />
       <workItem from="1751859973441" duration="16000" />
-      <workItem from="1751888877820" duration="7648000" />
+      <workItem from="1751888877820" duration="8306000" />
     </task>
     <task id="LOCAL-00001" summary="アプリ名を変更: プロジェクト名を &quot;basic-todo-app&quot; から &quot;Vimflow&quot; に更新。">
       <option name="closed" value="true" />
@@ -206,7 +201,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751890293548</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="feat: Add web app manifest and favicon to enhance PWA support and branding">
+      <option name="closed" value="true" />
+      <created>1751897727346</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1751897727346</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,8 +227,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="アプリ名を変更: プロジェクト名を &quot;basic-todo-app&quot; から &quot;Vimflow&quot; に更新。" />
-    <MESSAGE value="README.mdを更新: アプリの名前変更に伴い、新しいアプリ名「Vimflow」の概要、特徴、セットアップ手順、カスタムフック構造、技術スタック、背景アニメーション、およびデータベーススキーマの詳細を追加。" />
     <MESSAGE value="タスク完了機能を実装: `completeTodo`関数を追加し、タスクの完了状態を切り替えできるように更新。UIにチェックボックスを導入し、ストライクスルー表示を実現。APIスキーマおよびタイプ定義を拡張して`completed`フィールドを追加。" />
     <MESSAGE value="CLAUDE.mdを更新: Geminiモデルの使い分けのルールを追加し、主要な活用場面に「問題解決」を新たに含む。テキストフォーマットの微調整を実施し、表現の一貫性を向上。" />
     <MESSAGE value="タスク入力のバリデーションとエラーハンドリングを強化: Zodスキーマに文字数制限と禁止文字チェックを追加。入力フィールドに文字数カウンターと警告メッセージを実装し、エラー表示機能を導入。" />
@@ -245,6 +246,12 @@
     <MESSAGE value="依存関係を追加: Playwrightとその関連ライブラリを導入し、テスト環境を強化。" />
     <MESSAGE value="E2Eテストを追加: Playwrightを用いてトップページの読み込みとメインコンテンツ表示を確認するテストを実装。" />
     <MESSAGE value="refactor: remove session prop from TodoApp component" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: remove session prop from TodoApp component" />
+    <MESSAGE value="refactor: TodoAppコンポーネントから不要なpropsを削除し、コードの簡素化と可読性を向上" />
+    <MESSAGE value="feat: add PWA support with manifest.json, updated favicon, and app icons" />
+    <MESSAGE value="feat: Add app manifest and favicon support for Progressive Web App (PWA) compatibility" />
+    <MESSAGE value="feat: Add PWA support with manifest and favicon updates&#10;&#10;- Implemented a web app manifest (`manifest.json`) for PWA capabilities&#10;- Added new favicon and icons in SVG format for better resolution and cross-platform compatibility&#10;- Updated `layout.tsx` to reference new application icons and manifest file" />
+    <MESSAGE value="feat: Add web app manifest and favicon to enhance PWA support and branding" />
+    <MESSAGE value="docs: Add JSDoc comments to ErrorPage component for improved code clarity" />
+    <option name="LAST_COMMIT_MESSAGE" value="docs: Add JSDoc comments to ErrorPage component for improved code clarity" />
   </component>
 </project>
